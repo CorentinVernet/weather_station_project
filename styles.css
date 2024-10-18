@@ -2,9 +2,18 @@ body {
   text-align: center;
   font-family: fantasy;
   font-size: 60px;
+  background-image: url("background.png");
+  background-size: cover;
 }
 
-.border {
-  border: 150px;
-  "label"
+fieldset {
+  border-width: 10px;
+  border-color: #3f85ee;
+  border-style: inset;
+  width: 10px;
+}
+
+label {
+  text-align: center;
+  place-items: calc(center);
 }
