@@ -1,19 +1,44 @@
+.clock-display {
+  color: red;
+  /*text-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px darkred, 0 0 20px darkred;*/
+  font-family: "Orbitron", monospace;
+  font-size: 50px;
+  margin: 10px 0;
+}
+
 body {
   text-align: center;
-  font-family: fantasy;
+  font-family: "Courier New", Courier, monospace;
   font-size: 60px;
   background-image: url("background.png");
   background-size: cover;
+  color: white;
+}
+
+h1 {
+  margin: 0;
+  color: black;
 }
 
 fieldset {
   border-width: 10px;
-  border-color: #3f85ee;
+  border-color: #3fee88;
   border-style: inset;
-  width: 10px;
+}
+
+.labels-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 label {
-  text-align: center;
-  place-items: calc(center);
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  margin-bottom: 20px;
 }
