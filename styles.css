@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "Orbitron";
+  src: url("fonts\\Orbitron-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .clock-display {
   color: red;
   /*text-shadow: 0 0 5px red, 0 0 10px red, 0 0 15px darkred, 0 0 20px darkred;*/
@@ -10,7 +17,7 @@ body {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
   font-size: 60px;
-  background-image: url("background.png");
+  background-image: url("img/background.png");
   background-size: cover;
   color: white;
 }
