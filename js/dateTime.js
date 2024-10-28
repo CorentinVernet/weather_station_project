@@ -17,29 +17,5 @@ function updateDateTime() {
   document.getElementById("time").innerText = timeString;
 }
 
-async function fetchWeatherData() {
-  try {
-    const response = await fetch("data.json");
-    if (!response.ok)
-      throw new Error("Erreur lors de la récupération des données");
-
-    const data = await response.json();
-    updateWeatherDisplay(data);
-  } catch (error) {
-    console.error("Erreur:", error);
-  }
-}
-
-function updateWeatherDisplay(data) {
-  const temperature = data.temperature;
-  const windSpeed = data.wind_speed;
-
-  document.getElementById("temperature").innerText = `${temperature} °C`;
-  document.getElementById("wind-speed").innerText = `${windSpeed} km/h`;
-}
-
-fetchWeatherData();
-setInterval(fetchWeatherData, 60000);
-
 updateDateTime();
 setInterval(updateDateTime, 1000);

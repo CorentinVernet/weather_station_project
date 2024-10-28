@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Orbitron";
+  src: url("/fonts/Orbitron-VariableFont_wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.clock-display {
+  color: red;
+  font-family: "Orbitron", monospace;
+  font-size: 50px;
+  margin: 10px 0;
+}

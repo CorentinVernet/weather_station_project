@@ -1,0 +1,16 @@
+fieldset {
+  border-width: 10px;
+  border-color: #3fee88;
+  border-style: inset;
+  color: black;
+}
+
+.temperature-container {
+  display: flex;
+  align-items: center;
+}
+
+.labels_icons {
+  width: 70px;
+  height: auto;
+}

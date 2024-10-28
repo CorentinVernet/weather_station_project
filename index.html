@@ -6,7 +6,10 @@
     <title>Weather Station</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/layout.css" />
+    <link rel="stylesheet" href="styles/typography.css" />
+    <link rel="stylesheet" href="styles/components.css" />
   </head>
   <body>
     <header>
@@ -15,10 +18,27 @@
       <div id="date" class="clock-display"></div>
       <div id="time" class="clock-display"></div>
       <div class="labels-container">
-        <label><fieldset id="temperature"></fieldset></label>
-        <label><fieldset id="wind-speed"></fieldset></label>
+        <label
+          ><img src="img/thermometer.svg" class="labels_icons" />
+          <span class="label-text">Température :</span>
+          <div class="temperature-container">
+            <fieldset id="temperature"></fieldset>
+          </div>
+        </label>
+
+        <label
+          ><img src="img/wind_speed.svg" class="labels_icons" />
+          <span class="label-text">Vitesse du <br />vent :</span>
+          <fieldset id="wind-speed"></fieldset>
+        </label>
+        <label
+          ><img src="img/rain_height.svg" class="labels_icons" />
+          <span class="label-text">Hauteur de <br />pluie :</span>
+          <fieldset id="rain_height"></fieldset>
+        </label>
       </div>
+      <div id="error-message" style="color: red; display: none"></div>
     </header>
-    <script src="script.js" async defer></script>
+    <script src="js/main.js" type="module" async defer></script>
   </body>
 </html>
