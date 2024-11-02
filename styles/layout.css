@@ -14,3 +14,7 @@ label {
 .logo {
   margin-bottom: 20px;
 }
+
+.temperature-label {
+  margin-top: 35px;
+}

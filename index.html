@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Weather Station</title>
-    <meta name="description" content="" />
+    <meta
+      name="description"
+      content="Station météo fournissant des informations sur la température, la vitesse du vent et la hauteur de pluie."
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles/base.css" />
     <link rel="stylesheet" href="styles/layout.css" />
@@ -18,13 +21,15 @@
       <div id="date" class="clock-display"></div>
       <div id="time" class="clock-display"></div>
       <div class="labels-container">
-        <label
-          ><img src="img/thermometer.svg" class="labels_icons" />
-          <span class="label-text">Température :</span>
-          <div class="temperature-container">
-            <fieldset id="temperature"></fieldset>
-          </div>
-        </label>
+        <div class="temperature-label">
+          <label>
+            <img src="img/thermometer.svg" class="labels_icons" />
+            <span class="label-text">Température : </span>
+            <div class="temperature-container">
+              <fieldset id="temperature"></fieldset>
+            </div>
+          </label>
+        </div>
 
         <label
           ><img src="img/wind_speed.svg" class="labels_icons" />
