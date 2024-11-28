@@ -2,7 +2,7 @@ body {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
   font-size: 60px;
-  background-image: url("/img/background.png");
+  background-image: url("../img/background.png");
   background-size: cover;
   color: white;
 }

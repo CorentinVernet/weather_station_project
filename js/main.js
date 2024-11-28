@@ -1,2 +1,2 @@
-import "./dateTime.js";
-import "./weather.js";
+import "dateTime.js";
+import "weather.js";
