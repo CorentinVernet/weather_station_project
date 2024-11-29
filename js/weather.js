@@ -1,8 +1,8 @@
 async function fetchWeatherData() {
   try {
-    const response = await fetch("data.json");
+    const response = await fetch("../data/data.json");
     if (!response.ok) {
-      throw new Error("Erreur lors de la récupération des données");
+      console.log("Erreur lors de la récupération des données");
     }
 
     const data = await response.json();
