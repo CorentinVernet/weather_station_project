@@ -18,11 +18,15 @@ function updateWeatherDisplay(data) {
   const windSpeed = data.wind_speed;
   const rain_height = data.rain_height;
   const wind_direction = data.wind_direction;
+  const hygrometrie = data.hygrometrie;
 
   // Met à jour la température et la vitesse du vent
   document.getElementById("temperature").innerText = `${temperature} °C`;
   document.getElementById("wind-speed").innerText = `${windSpeed} km/h`;
   document.getElementById("rain_height").innerText = `${rain_height} ml`;
+  document.getElementById("hygrometrie").innerText = `${hygrometrie} %`;
+  document.getElementById("polution").innerText = `${polution} g`;
+
 
   // Met à jour la direction du vent
   const windDirectionText = getWindDirectionIcon(wind_direction);
@@ -30,6 +34,13 @@ function updateWeatherDisplay(data) {
     "wind_direction"
   ).innerHTML = `${windDirectionText} (${wind_direction}°)`;
 }
+
+  //Met a jour le taux d'humidité dans l'air
+  
+
+/*function getHygrometriePercent(data) {
+  const hygrometrie = 
+}*/
 
 function getWindDirectionIcon(degrees) {
   let directionIcon;

@@ -1,7 +1,7 @@
 .labels-container {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  flex-wrap: wrap;  /* Permet de passer à la ligne suivante */
+  justify-content: center;  gap: 20px;  /* Ajoute un espacement entre les labels */
 }
 
 label {
@@ -9,7 +9,10 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: calc(33.33% - 20px);  /* Chaque label occupe environ 1/3 de la largeur, avec un petit ajustement pour le gap */
+  box-sizing: border-box;  /* Assure que les marges et bordures sont incluses dans la largeur */
 }
+
 
 .logo {
   margin-bottom: 20px;
