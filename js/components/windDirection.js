@@ -7,6 +7,11 @@ export function updateWindDirection(degrees) {
   arrow.style.transform = `rotate(${rotation}deg)`;
 
   let directionText;
+
+  if (degrees === 360) {
+    degrees = 0;
+  }
+
   if ((degrees >= 0 && degrees < 23) || (degrees >= 337 && degrees < 360)) {
     directionText = "Nord";
   } else if (degrees >= 23 && degrees < 68) {

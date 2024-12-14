@@ -31,6 +31,17 @@
   transform-origin: bottom center;
 }
 
+.arrow::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #ff0000;
+  transform: translateX(-50%) translateY(-5px);
+}
+
 #wind-direction-text {
   text-align: center;
   font-size: 14px;
