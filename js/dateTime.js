@@ -1,4 +1,4 @@
-function updateDateTime() {
+export function updateDateTime() {
   const now = new Date();
 
   // date : JJ/MM/AAAA
@@ -17,5 +17,4 @@ function updateDateTime() {
   document.getElementById("time").innerText = timeString;
 }
 
-updateDateTime();
 setInterval(updateDateTime, 1000);

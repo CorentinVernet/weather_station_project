@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Weather Station</title>
-    <meta
-      name="description"
-      content="Station météo fournissant des informations sur la température, la vitesse du vent et la hauteur de pluie."
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather Station</title>
     <link rel="stylesheet" href="styles/base.css" />
     <link rel="stylesheet" href="styles/layout.css" />
     <link rel="stylesheet" href="styles/typography.css" />
     <link rel="stylesheet" href="styles/components.css" />
+    <link rel="stylesheet" href="styles/compass.css" />
   </head>
   <body>
     <header>
@@ -21,45 +18,48 @@
       <div id="date" class="clock-display"></div>
       <div id="time" class="clock-display"></div>
       <div class="labels-container">
-        <div class="temperature-label">
-          <label>
-            <img src="img/thermometer.svg" class="labels_icons" />
-            <span class="label-text">Température : </span>
-            <div class="temperature-container">
-              <fieldset id="temperature"></fieldset>
-            </div>
-          </label>
-        </div>
+        <label>
+          <img src="img/thermometer.svg" class="labels_icons" />
+          <span class="label-text">Température :</span>
+          <fieldset id="temperature"></fieldset>
+        </label>
 
-        <label
-          ><img src="img/wind_speed.svg" class="labels_icons" />
-          <span class="label-text">Vitesse du <br />vent :</span>
+        <label>
+          <img src="img/wind_speed.svg" class="labels_icons" />
+          <span class="label-text">Vitesse du vent :</span>
           <fieldset id="wind-speed"></fieldset>
         </label>
-        <label
-          ><img src="img/rain_height.svg" class="labels_icons" />
-          <span class="label-text">Hauteur de <br />pluie :</span>
+
+        <label>
+          <img src="img/rain_height.svg" class="labels_icons" />
+          <span class="label-text">Hauteur de pluie :</span>
           <fieldset id="rain_height"></fieldset>
         </label>
-        <label
-          ><img src="img/soufle_de_vent.png" class="labels_icons" />
-          <span class="label-text">Direction du <br />vent :</span>
-          <fieldset id="wind_direction"></fieldset>
+
+        <label>
+          <img src="img/soufle_de_vent.png" class="labels_icons" />
+          <span class="label-text">Direction du vent :</span>
+          <fieldset id="wind_direction">
+            <div id="compass" class="compass">
+              <div id="arrow" class="arrow"></div>
+            </div>
+            <div id="wind-direction-text"></div>
+          </fieldset>
         </label>
-        <label
-          ><img src="img/goutte_eau.png" class="labels_icons" />
-          <span class="label-text">Humidité <br />dans l'air :</span>
+
+        <label>
+          <img src="img/goutte_eau.png" class="labels_icons" />
+          <span class="label-text">Humidité :</span>
           <fieldset id="hygrometrie"></fieldset>
         </label>
-        <label
-          ><img src="img/polution.svg" class="labels_icons" />
-          <span class="label-text">Polution <br />de l'air :</span>
-          <fieldset id="hygrometrie"></fieldset>
+
+        <label>
+          <img src="img/polution.svg" class="labels_icons" />
+          <span class="label-text">Pollution de l'air :</span>
+          <fieldset id="polution"></fieldset>
         </label>
       </div>
-      <div id="error-message" style="color: red; display: none"></div>
     </header>
-    <script src="js/dateTime.js"></script>
-    <script src="js/weather.js"></script>
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>
