@@ -2,9 +2,19 @@ body {
   text-align: center;
   font-family: "Courier New", Courier, monospace;
   font-size: 60px;
-  background-image: url("../img/background.png");
+  background-image: url("../img/video_background.mp4");
   background-size: cover;
   color: white;
+}
+
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
 }
 
 h1 {
