@@ -5,5 +5,5 @@
   "wind_direction": 360,
   "hygrometrie": 80,
   "polution": 3.5,
-  "comment": "pression atmosférique"
+  "pressur": 51
 }
