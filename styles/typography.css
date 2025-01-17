@@ -7,7 +7,6 @@
 
 .clock-display {
   color: red;
-  font-family: "Orbitron", monospace;
-  font-size: 50px;
+  font-size: 70px;
   margin: 10px 0;
 }

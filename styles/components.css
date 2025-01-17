@@ -1,6 +1,6 @@
 fieldset {
   border-width: 10px;
-  border-color: #3fee88;
+  border-color: #6200ffcc;
   border-style: inset;
   color: black;
 }
@@ -13,4 +13,9 @@ fieldset {
 .labels_icons {
   width: 70px;
   height: auto;
+  background-color: #00b7ff4d;
+  padding: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 10px #000000a0;
 }

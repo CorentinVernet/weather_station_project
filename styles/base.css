@@ -24,8 +24,25 @@ h1 {
 }
 
 .label-text {
+  font-family: "Source Code Pro", monospace;
   color: black;
   font-size: 0.5em;
   display: block;
   margin-bottom: 5px;
+}
+
+#temperature,
+#wind_direction,
+#wind-speed,
+#rain_height,
+#hygrometrie,
+#polution,
+#pressur {
+  font-family: "Source Code Pro", monospace;
+  font-size: auto;
+  background-color: #c8bcdc93;
+}
+
+header1 {
+  background-color: #c8bcdc93;
 }
