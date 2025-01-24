@@ -1,5 +1,6 @@
 body {
   text-align: center;
+  align-items: center;
   font-family: "Courier New", Courier, monospace;
   font-size: 60px;
   background-image: url("../img/video_background.mp4");
@@ -19,8 +20,34 @@ body {
 }
 
 h1 {
-  margin: 0;
-  color: black;
+  mix-blend-mode: difference;
+  margin-bottom: auto;
+}
+
+.header-content {
+  display: flex;
+  justify-content: center; /* Centre le contenu horizontalement */
+  align-items: center; /* Centre le contenu verticalement */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.17); /* Fond semi-transparent */
+  backdrop-filter: blur(8px); /* Flou de l'arrière-plan */
+  border-radius: 10px; /* Bords arrondis */
+}
+
+.left-side,
+.right-side {
+  display: flex;
+  align-items: center; /* Aligne verticalement les éléments */
+}
+
+.left-side {
+  justify-content: flex-start; /* Aligne les éléments à gauche */
+  flex: 1; /* Laisse de l'espace pour la partie gauche */
+}
+
+.right-side {
+  justify-content: flex-end; /* Aligne les éléments à droite */
+  flex: 1; /* Laisse de l'espace pour la partie droite */
 }
 
 .label-text {

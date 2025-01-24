@@ -19,9 +19,13 @@ label {
 .logo {
   max-width: 150px;
   margin-bottom: 20px;
-  background-color: #c8bcdc93;
+  margin-top: 0px;
+  background-color: #ffffff8f;
   display: inline-block;
-  box-shadow: 0 0 10px #000000a0;
+  border-width: 10px;
+  border-color: #ff8400cc;
+  border-style: inset;
+  color: black;
 }
 
 .temperature-label {

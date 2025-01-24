@@ -15,11 +15,28 @@
     <link rel="stylesheet" href="styles/compass.css" />
   </head>
   <body>
-    <header1>
+    <header>
       <h1>METEO</h1>
-      <img class="logo" src="img/logo_stjacques.png" />
-      <div id="date" class="clock-display"></div>
-      <div id="time" class="clock-display"></div>
+
+      <div class="header-content">
+        <div class="left-side">
+          <h2>info</h2>
+          <!-- Autres éléments à gauche ici -->
+        </div>
+
+        <!-- Partie centrale -->
+        <div class="center-content">
+          <img class="logo" src="img/logo_stjacques.png" />
+          <div id="date" class="clock-display"></div>
+          <div id="time" class="clock-display"></div>
+        </div>
+
+        <div class="right-side">
+          <h2>Infos Droite</h2>
+          <!-- Autres éléments à droite ici -->
+        </div>
+      </div>
+
       <div class="labels-container">
         <label>
           <img src="img/components_logo/thermometer.svg" class="labels_icons" />
@@ -66,14 +83,15 @@
         </label>
         <label>
           <img
-            src="img/components_logo/atmospheric_pressure.png "
+            src="img/components_logo/atmospheric_pressure.png"
             class="labels_icons"
           />
           <span class="label-text">Pression Atmosférique :</span>
           <fieldset id="pressur"></fieldset>
         </label>
       </div>
-    </header1>
+    </header>
+
     <script type="module" src="js/main.js"></script>
   </body>
 </html>
