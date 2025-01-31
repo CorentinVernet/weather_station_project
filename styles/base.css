@@ -22,32 +22,33 @@ body {
 h1 {
   mix-blend-mode: difference;
   margin-bottom: auto;
+  margin-top: auto;
 }
 
 .header-content {
   display: flex;
-  justify-content: center; /* Centre le contenu horizontalement */
-  align-items: center; /* Centre le contenu verticalement */
+  justify-content: center;
+  align-items: center;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.17); /* Fond semi-transparent */
-  backdrop-filter: blur(8px); /* Flou de l'arrière-plan */
-  border-radius: 10px; /* Bords arrondis */
+  background-color: rgba(74, 72, 72, 0.251);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
 }
 
 .left-side,
 .right-side {
   display: flex;
-  align-items: center; /* Aligne verticalement les éléments */
+  align-items: center;
 }
 
 .left-side {
-  justify-content: flex-start; /* Aligne les éléments à gauche */
-  flex: 1; /* Laisse de l'espace pour la partie gauche */
+  justify-content: flex-start;
+  flex: 1;
 }
 
 .right-side {
-  justify-content: flex-end; /* Aligne les éléments à droite */
-  flex: 1; /* Laisse de l'espace pour la partie droite */
+  justify-content: flex-end;
+  flex: 1;
 }
 
 .label-text {
