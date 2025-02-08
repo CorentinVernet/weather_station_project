@@ -8,6 +8,7 @@ import { windDirectionValue } from "./components/windDirection.js";
 import { loadWeatherData } from "./headerContent/globalWeatherState.js";
 import { getWeatherCondition } from "./headerContent/globalWeatherState.js";
 import { updateDateTime } from "./dateTime.js";
+import { showCalendar } from "./headerContent/calendar.js";
 
 async function updateWeatherDisplay() {
   try {
@@ -47,6 +48,9 @@ async function updateWeatherDisplay() {
   }
 }
 
-updateWeatherDisplay();
-updateDateTime();
-setInterval(updateWeatherDisplay, 60000);
+document.addEventListener("DOMContentLoaded", () => {
+  updateWeatherDisplay();
+  updateDateTime();
+  setInterval(updateWeatherDisplay, 60000);
+  showCalendar(); // Afficher le calendrier au chargement du DOM
+});
