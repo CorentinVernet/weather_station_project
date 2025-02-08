@@ -52,5 +52,5 @@ document.addEventListener("DOMContentLoaded", () => {
   updateWeatherDisplay();
   updateDateTime();
   setInterval(updateWeatherDisplay, 60000);
-  showCalendar(); // Afficher le calendrier au chargement du DOM
+  showCalendar();
 });
