@@ -1,34 +1,38 @@
-export function updateWindDirection(degrees) {
-  const arrow = document.getElementById("arrow");
-  const windDirectionText = document.getElementById("wind-direction-text");
+// components/windDirection.js
 
-  const rotation = degrees;
+// Fonction pour déterminer la direction du vent
+export async function windDirectionValue() {
+  try {
+    const response = await fetch("../../data/data.json"); // Charger le fichier JSON
+    if (!response.ok) {
+      throw new Error("Impossible de charger les données");
+    }
+    const data = await response.json(); // Parser le JSON
 
-  arrow.style.transform = `rotate(${rotation}deg)`;
+    const windDirection = data.wind_direction; // Direction du vent en degrés
+    let direction = "";
 
-  let directionText;
+    if (windDirection >= 0 && windDirection < 45) {
+      direction = "Nord";
+    } else if (windDirection >= 45 && windDirection < 90) {
+      direction = "Nord-Est";
+    } else if (windDirection >= 90 && windDirection < 135) {
+      direction = "Est";
+    } else if (windDirection >= 135 && windDirection < 180) {
+      direction = "Sud-Est";
+    } else if (windDirection >= 180 && windDirection < 225) {
+      direction = "Sud";
+    } else if (windDirection >= 225 && windDirection < 270) {
+      direction = "Sud-Ouest";
+    } else if (windDirection >= 270 && windDirection < 315) {
+      direction = "Ouest";
+    } else {
+      direction = "Nord-Ouest";
+    }
 
-  if (degrees === 360) {
-    degrees = 0;
+    return direction; // Retourner la direction du vent
+  } catch (error) {
+    console.error("Erreur de chargement des données :", error);
+    return "Erreur de chargement"; // Gérer les erreurs de chargement
   }
-
-  if ((degrees >= 0 && degrees < 23) || (degrees >= 337 && degrees < 360)) {
-    directionText = "Nord";
-  } else if (degrees >= 23 && degrees < 68) {
-    directionText = "Nord-Est";
-  } else if (degrees >= 68 && degrees < 113) {
-    directionText = "Est";
-  } else if (degrees >= 113 && degrees < 158) {
-    directionText = "Sud-Est";
-  } else if (degrees >= 158 && degrees < 203) {
-    directionText = "Sud";
-  } else if (degrees >= 203 && degrees < 248) {
-    directionText = "Sud-Ouest";
-  } else if (degrees >= 248 && degrees < 293) {
-    directionText = "Ouest";
-  } else if (degrees >= 293 && degrees < 337) {
-    directionText = "Nord-Ouest";
-  }
-
-  windDirectionText.innerText = `${directionText} (${degrees}°)`;
 }

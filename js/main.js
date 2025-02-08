@@ -1,40 +1,43 @@
-import {
-  loadWeatherData,
-  getWeatherCondition,
-} from "./headerContent/globalWeather.js";
-import { updateWindDirection } from "./components/windDirection.js";
-import { updateWindSpeed } from "./components/windSpeed.js";
-import { updateRainHeight } from "./components/rainHeight.js";
-import { updateHygrometrie } from "./components/hygrometrie.js";
-import { updatePolution } from "./components/polution.js";
-import { updateDateTime } from "./dateTime.js";
-import { updateAirPressur } from "./components/air_pressur.js";
+// Importer les fichiers des composants et de l'état global
+import { airPressurValue } from "./components/airPressur.js";
+import { temperatureValue } from "./components/temperature.js";
+import { windSpeedValue } from "./components/windSpeed.js";
+import { rainHeightValue } from "./components/rainHeight.js";
+import { hygrometrieValue } from "./components/hygrometrie.js";
+import { polutionValue } from "./components/polution.js";
+import { windDirectionValue } from "./components/windDirection.js";
 
+// Fonction pour mettre à jour l'interface utilisateur avec les données calculées
 async function updateWeatherDisplay() {
   try {
-    const data = await loadWeatherData();
+    // Récupérer les valeurs calculées et formatées depuis les composants
+    const airPressur = await airPressurValue(); // Exemple : "3 bar"
+    document.getElementById("pressur").innerText = airPressur;
 
-    const weatherCondition = getWeatherCondition(data);
+    const temperature = await temperatureValue(); // Exemple : "25 °C"
+    document.getElementById("temperature").innerText = temperature;
 
-    document.getElementById("global-weather-text").innerText = weatherCondition;
+    const windSpeed = await windSpeedValue(); // Exemple : "12 km/h"
+    document.getElementById("wind-speed").innerText = windSpeed;
 
-    document.getElementById("temperature").innerText = `${data.temperature} °C`;
-    document.getElementById("wind-speed").innerText = `${data.windSpeed} km/h`;
-    document.getElementById("rain_height").innerText = `${data.rainHeight} mm`;
-    document.getElementById(
-      "wind_direction"
-    ).innerText = `${data.windDirection}°`;
-    document.getElementById("hygrometrie").innerText = `${data.humidity} %`;
-    document.getElementById("polution").innerText = `${data.pollution} µg/m³`;
-    document.getElementById("pressur").innerText = `${data.pressure} hPa`;
+    const rainHeight = await rainHeightValue(); // Exemple : "2 mm"
+    document.getElementById("rain_height").innerText = rainHeight;
 
-    updateWindDirection(data.windDirection);
+    const hygrometrie = await hygrometrieValue(); // Exemple : "65 %"
+    document.getElementById("hygrometrie").innerText = hygrometrie;
+
+    const polution = await polutionValue(); // Exemple : "25 µg/m³"
+    document.getElementById("polution").innerText = polution;
+
+    const windDirection = await windDirectionValue(); // Exemple : "Nord"
+    document.getElementById("windDirection").innerText = windDirection;
   } catch (error) {
-    console.error("Erreur lors de l'affichage des données météo :", error);
+    console.error("Erreur lors de la mise à jour des données météo :", error);
   }
 }
 
+// Exécution initiale pour charger et afficher les données météo
 updateWeatherDisplay();
 
+// Mettre à jour les données toutes les 60 secondes (60 000 ms)
 setInterval(updateWeatherDisplay, 60000);
-updateDateTime();
