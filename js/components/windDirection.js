@@ -1,15 +1,12 @@
-// components/windDirection.js
-
-// Fonction pour déterminer la direction du vent
 export async function windDirectionValue() {
   try {
-    const response = await fetch("../../data/data.json"); // Charger le fichier JSON
+    const response = await fetch("../../data/data.json");
     if (!response.ok) {
       throw new Error("Impossible de charger les données");
     }
-    const data = await response.json(); // Parser le JSON
+    const data = await response.json();
 
-    const windDirection = data.wind_direction; // Direction du vent en degrés
+    const windDirection = data.wind_direction;
     let direction = "";
 
     if (windDirection >= 0 && windDirection < 45) {
@@ -30,9 +27,9 @@ export async function windDirectionValue() {
       direction = "Nord-Ouest";
     }
 
-    return direction; // Retourner la direction du vent
+    return direction;
   } catch (error) {
     console.error("Erreur de chargement des données :", error);
-    return "Erreur de chargement"; // Gérer les erreurs de chargement
+    return "Erreur de chargement";
   }
 }

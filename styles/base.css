@@ -60,7 +60,7 @@ h1 {
 }
 
 #temperature,
-#wind_direction,
+#windDirection,
 #wind-speed,
 #rain_height,
 #hygrometrie,
@@ -68,9 +68,5 @@ h1 {
 #pressur {
   font-family: "Source Code Pro", monospace;
   font-size: auto;
-  background-color: #c8bcdc93;
-}
-
-header1 {
   background-color: #c8bcdc93;
 }
