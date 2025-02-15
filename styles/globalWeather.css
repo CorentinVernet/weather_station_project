@@ -1,8 +1,3 @@
-.left-side {
-  mix-blend-mode: exclusion; /* Appliquer l'effet sur le parent direct du texte */
-  padding: 20px; /* Pour que le texte soit bien visible */
-}
-
 #global-weather-text {
   font-size: 100px;
   font-weight: bold;
@@ -12,8 +7,4 @@
   border-style: inset;
   border-width: 13px;
   border-radius: 9px;
-}
-
-h3 {
-  mix-blend-mode: exclusion;
 }
