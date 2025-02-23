@@ -1,4 +1,4 @@
-import data from "../data/data.js";
+import data from "../assets/data.js";
 
 export async function windDirectionValue() {
   try {
