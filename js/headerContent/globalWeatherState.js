@@ -1,11 +1,7 @@
+import data from "../data/data.js";
+
 export async function loadWeatherData() {
   try {
-    const response = await fetch("../../data/data.json");
-    if (!response.ok) {
-      throw new Error("Impossible de charger les données");
-    }
-    const data = await response.json();
-
     return {
       temperature: data.temperature,
       rainHeight: data.rain_height,
