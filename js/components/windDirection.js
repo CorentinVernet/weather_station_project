@@ -1,11 +1,7 @@
+import data from "../../data/data";
+
 export async function windDirectionValue() {
   try {
-    const response = await fetch("../../data/data.json");
-    if (!response.ok) {
-      throw new Error("Impossible de charger les données");
-    }
-    const data = await response.json();
-
     const windDirection = data.wind_direction;
     let direction = "";
 
