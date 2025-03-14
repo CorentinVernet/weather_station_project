@@ -27,7 +27,7 @@ export function showCalendar() {
 
   function renderCalendar(month, year) {
     const monthName = monthNames[month];
-    const firstDay = new Date(year, month, 1).getDay();
+    const firstDay = new Date(year, month, 0).getDay();
     const lastDay = new Date(year, month + 1, 0).getDate();
 
     const header = `<div class="calendar-header">${monthName} ${year}</div>`;
