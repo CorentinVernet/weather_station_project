@@ -1,9 +1,9 @@
 const data = {
   temperature: 9,
-  wind_speed: 150,
-  rain_height: 60,
-  wind_direction: 200,
-  hygrometrie: 65,
+  wind_speed: 0,
+  rain_height: 4,
+  wind_direction: 0,
+  hygrometrie: 5,
   polution: 30,
   pressur: 50,
 };

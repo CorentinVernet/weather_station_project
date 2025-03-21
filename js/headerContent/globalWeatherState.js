@@ -17,20 +17,38 @@ export async function loadWeatherData() {
 export function getWeatherCondition(data) {
   let weatherCondition = "";
 
+  // Condition de pluie
   if (data.rainHeight > 5) {
     weatherCondition = "Pluvieux";
-  } else if (data.temperature > 25 && data.humidity < 60) {
+  }
+  // Condition de temps ensoleillé
+  else if (data.temperature > 25 && data.humidity < 60 && data.windSpeed < 15) {
     weatherCondition = "Ensoleillé";
-  } else if (
+  }
+  // Condition de temps nuageux
+  else if (
     data.temperature >= 15 &&
     data.temperature <= 25 &&
     data.humidity > 60
   ) {
     weatherCondition = "Nuageux";
-  } else if (data.temperature < 10) {
+  }
+  // Condition de froid
+  else if (data.temperature < 10) {
     weatherCondition = "Froid";
-  } else {
+  }
+  // Condition venteuse ou perturbée
+  else if (data.windSpeed > 20) {
+    weatherCondition = "Venteux";
+  }
+  // Condition variable ou incertaine
+  else if (
+    (data.temperature >= 10 && data.temperature <= 15) ||
+    (data.humidity >= 40 && data.humidity <= 60)
+  ) {
     weatherCondition = "Variable";
+  } else {
+    weatherCondition = "Modéré";
   }
 
   return weatherCondition;

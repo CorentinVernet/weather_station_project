@@ -54,4 +54,3 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(updateWeatherDisplay, 60000);
   showCalendar();
 });
-//test reload
