@@ -58,7 +58,7 @@ if __name__ == "__main__":
                 update_data_js(rain_height)
                 last_rain_height = rain_height  # Mettre à jour la hauteur de pluie dernière
 
-            time.sleep(1)  # Réduire la pause pour rendre la boucle plus réactive
+            time.sleep(0.05)  # Réduire la pause pour rendre la boucle plus réactive
 
     except KeyboardInterrupt:
         print("Programme interrompu")
