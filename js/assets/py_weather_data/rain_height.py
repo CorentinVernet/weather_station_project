@@ -21,11 +21,13 @@ def get_rain_height_from_arduino():
 
 # Fonction pour mettre à jour le fichier data.js
 def update_data_js(rain_height):
-    # Utilisez des barres obliques pour éviter les problèmes de caractères spéciaux
-    data_js_path = "C:/Users/coren/Documents/weather_station_project/js/assets/data.js"
+    # Trouver le répertoire où ce script Python est situé
+    script_dir = os.path.dirname(os.path.abspath(__file__))  # Répertoire du script actuel
+    data_js_path = os.path.join(script_dir, "js", "assets", "data.js")  # Construire le chemin relatif vers data.js
 
     # Vérification du répertoire courant
     print(f"Répertoire courant : {os.getcwd()}")
+    print(f"Répertoire du script : {script_dir}")
     
     # Vérifier si le fichier existe avant de tenter de l'ouvrir
     if not os.path.isfile(data_js_path):
