@@ -93,20 +93,29 @@ def insert_into_db(data):
 
 
 def read_sensors():
+    last_insert_minute = -1
+
     while True:
-        combined_data = {}
+        now = datetime.now()
+        current_minute = now.minute
 
-        temp_pressure_data = read_from_arduino_temp_pressure()
-        combined_data.update(temp_pressure_data)
+        if current_minute != last_insert_minute:
+            combined_data = {}
 
-        rain_height_data = read_from_arduino_rain_height()
-        combined_data.update(rain_height_data)
+            temp_pressure_data = read_from_arduino_temp_pressure()
+            combined_data.update(temp_pressure_data)
 
-        luminosity_data = read_from_arduino_luminosity()
-        combined_data.update(luminosity_data)
+            rain_height_data = read_from_arduino_rain_height()
+            combined_data.update(rain_height_data)
 
-        if combined_data:
-            insert_into_db(combined_data)
+            luminosity_data = read_from_arduino_luminosity()
+            combined_data.update(luminosity_data)
+
+            if combined_data:
+                insert_into_db(combined_data)
+                print(f"Données insérées à {now.strftime('%H:%M:%S')} : {combined_data}")
+
+            last_insert_minute = current_minute
 
         time.sleep(1)
 

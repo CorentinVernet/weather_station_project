@@ -1,6 +1,7 @@
 import { updateDateTime } from "./dateTime.js";
 import { showCalendar } from "./headerContent/calendar.js";
 
+// Appel à l'API
 async function fetchLatestData() {
   try {
     const response = await fetch("http://127.0.0.1:5000/api/latest");
@@ -13,89 +14,102 @@ async function fetchLatestData() {
   }
 }
 
+// Mise à jour des données capteurs
 window.updateTemperature = async function () {
   const data = await fetchLatestData();
-  if (data.temperature !== null) {
-    document.getElementById("temperature").innerText = data.temperature + " °C";
-  } else {
-    document.getElementById("temperature").innerText = "--";
-  }
+  document.getElementById("temperature").innerText =
+    data.temperature !== null ? `${data.temperature} °C` : "--";
 };
 
 window.updateHumidity = async function () {
   const data = await fetchLatestData();
-  if (data.humidity !== null) {
-    document.getElementById("hygrometrie").innerText = data.humidity + " %";
-  } else {
-    document.getElementById("hygrometrie").innerText = "--";
-  }
+  document.getElementById("hygrometrie").innerText =
+    data.humidity !== null ? `${data.humidity} %` : "--";
 };
 
 window.updatePressure = async function () {
   const data = await fetchLatestData();
-  if (data.pressure !== null) {
-    document.getElementById("pressur").innerText = data.pressure + " hPa";
-  } else {
-    document.getElementById("pressur").innerText = "--";
-  }
+  document.getElementById("pressur").innerText =
+    data.pressure !== null ? `${data.pressure} hPa` : "--";
 };
 
 window.updateRain = async function () {
   const data = await fetchLatestData();
-  if (data.rain_height !== null) {
-    document.getElementById("rain_height").innerText = data.rain_height + " mm";
-  } else {
-    document.getElementById("rain_height").innerText = "--";
-  }
+  document.getElementById("rain_height").innerText =
+    data.rain_height !== null ? `${data.rain_height} mm` : "--";
 };
 
 window.updateLuminosity = async function () {
   const data = await fetchLatestData();
-  if (data.luminosity !== null) {
-    document.getElementById("luminosity").innerText = data.luminosity + " lux";
-  } else {
-    document.getElementById("luminosity").innerText = "--";
-  }
+  document.getElementById("luminosity").innerText =
+    data.luminosity !== null ? `${data.luminosity} lux` : "--";
 };
 
+// Mise à jour globale
 window.updateAll = async function () {
   const data = await fetchLatestData();
 
-  if (data.temperature !== null) {
-    document.getElementById("temperature").innerText = data.temperature + " °C";
-  } else {
-    document.getElementById("temperature").innerText = "--";
-  }
-
-  if (data.humidity !== null) {
-    document.getElementById("hygrometrie").innerText = data.humidity + " %";
-  } else {
-    document.getElementById("hygrometrie").innerText = "--";
-  }
-
-  if (data.pressure !== null) {
-    document.getElementById("pressur").innerText = data.pressure + " hPa";
-  } else {
-    document.getElementById("pressur").innerText = "--";
-  }
-
-  if (data.rain_height !== null) {
-    document.getElementById("rain_height").innerText = data.rain_height + " mm";
-  } else {
-    document.getElementById("rain_height").innerText = "--";
-  }
-
-  if (data.luminosity !== null) {
-    document.getElementById("luminosity").innerText = data.luminosity + " lux";
-  } else {
-    document.getElementById("luminosity").innerText = "--";
-  }
-
-  // ici d'autres capteurs (vent, pollution, etc.)
+  document.getElementById("temperature").innerText =
+    data.temperature !== null ? `${data.temperature} °C` : "--";
+  document.getElementById("hygrometrie").innerText =
+    data.humidity !== null ? `${data.humidity} %` : "--";
+  document.getElementById("pressur").innerText =
+    data.pressure !== null ? `${data.pressure} hPa` : "--";
+  document.getElementById("rain_height").innerText =
+    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+  document.getElementById("luminosity").innerText =
+    data.luminosity !== null ? `${data.luminosity} lux` : "--";
 };
 
+// Historique météo
+window.showHistory = async function () {
+  const selectedDate = document.getElementById("history-date").value;
+  if (!selectedDate) {
+    alert("Veuillez sélectionner une date.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:5000/api/history?date=${selectedDate}`
+    );
+    const historyData = await response.json();
+
+    const container = document.getElementById("history-results");
+    container.innerHTML = ""; // Vide les anciens résultats
+
+    if (historyData.length === 0) {
+      container.innerText = "Aucune donnée disponible pour cette date.";
+      return;
+    }
+
+    historyData.forEach((entry) => {
+      const div = document.createElement("div");
+      div.className = "history-entry";
+      div.innerText = `${entry.timestamp} | Temp: ${
+        entry.temperature ?? "--"
+      } °C, Humidité: ${entry.humidity ?? "--"} %, Pression: ${
+        entry.pressure ?? "--"
+      } hPa, Pluie: ${entry.rain_height ?? "--"} mm, Luminosité: ${
+        entry.luminosity ?? "--"
+      } lux`;
+      container.appendChild(div);
+    });
+  } catch (error) {
+    console.error("Erreur lors du chargement de l'historique :", error);
+    alert("Erreur lors du chargement de l'historique.");
+  }
+};
+
+// Initialisation
 document.addEventListener("DOMContentLoaded", () => {
   updateAll();
   updateDateTime();
   showCalendar();
+
+  // Écouteur pour l'historique
+  const historyButton = document.getElementById("btn-show-history");
+  if (historyButton) {
+    historyButton.addEventListener("click", showHistory);
+  }
 });

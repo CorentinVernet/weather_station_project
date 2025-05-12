@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historique Météo</title>
+    <link rel="stylesheet" href="styles/history_styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <button id="back-button">← Retour à la station</button>
+      <h1>Historique des Données Météo</h1>
+
+      <label for="date-select">Choisir une date :</label>
+      <input type="date" id="date-select" />
+
+      <table id="history-table">
+        <thead>
+          <tr>
+            <th data-key="timestamp">Heure</th>
+            <th data-key="temperature">Température (°C)</th>
+            <th data-key="humidity">Humidité (%)</th>
+            <th data-key="pressure">Pression (hPa)</th>
+            <th data-key="rain_height">Pluie (mm)</th>
+            <th data-key="luminosity">Luminosité (lux)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script src="js/history.js"></script>
+  </body>
+</html>

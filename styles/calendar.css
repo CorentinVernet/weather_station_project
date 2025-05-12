@@ -1,3 +1,78 @@
+/* Global Styles */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#calendar-section {
+  margin-top: 30px;
+}
+
+#data-section {
+  margin-top: 30px;
+}
+
+#history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+#history-table th,
+#history-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+#history-table th {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+#history-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Calendar Styles */
 #calendar {
   margin-top: 20px;
   color: #ebe5e5;
@@ -59,4 +134,27 @@
 
 .calendar-day.empty:hover {
   background-color: transparent;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+
+  #calendar-section,
+  #data-section {
+    padding: 10px;
+  }
+
+  #history-table th,
+  #history-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
 }
