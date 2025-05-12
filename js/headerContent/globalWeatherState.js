@@ -16,7 +16,7 @@ export async function loadWeatherData() {
 
 export function getWeatherCondition(data) {
   let weatherCondition = "";
-
+  /*
   // Condition de pluie
   if (data.rainHeight > 5) {
     weatherCondition = "Pluvieux";
@@ -52,4 +52,6 @@ export function getWeatherCondition(data) {
   }
 
   return weatherCondition;
+  */
+  return "maintenance";
 }

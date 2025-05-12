@@ -64,7 +64,8 @@ h1 {
 #rain_height,
 #hygrometrie,
 #polution,
-#pressur {
+#pressur,
+#luminosity {
   font-family: "Source Code Pro", monospace;
   font-size: auto;
   background-color: #c8bcdc93;
