@@ -19,3 +19,9 @@ fieldset {
   display: inline-block;
   box-shadow: 0 0 10px #000000a0;
 }
+
+.element {
+  background-color: rgba(255, 255, 255, 0.5); /* fallback */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}

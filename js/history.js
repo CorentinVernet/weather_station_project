@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   dateInput.addEventListener("change", () => {
     const date = dateInput.value;
     if (date) {
-      fetch(`http://127.0.0.1:5000/api/history?date=${date}`)
+      fetch(`http://192.168.53.198:5000/api/history?date=${date}`)
         .then((response) => response.json())
         .then((data) => populateTable(data))
         .catch((error) => {
