@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((data) => populateTable(data))
         .catch((error) => {
           console.error("Erreur de chargement des données :", error);
-          alert("Erreur lors du chargement des données.");
+          alert("Erreur lors du chargement des données. (Probleme avec l'API");
         });
     }
   });
