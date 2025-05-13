@@ -67,7 +67,7 @@ window.showHistory = async function () {
 
   try {
     const response = await fetch(
-      `http://192.168.53.198:5000/api/latest?date=${date}`
+      `http://192.168.53.198:5000/api/latest?date=${date}` /*Adresse IP ici a changer*/
     );
     const historyData = await response.json();
 
