@@ -3,7 +3,8 @@ from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="*")  # Permet l'accès à l'API depuis n'importe quelle origine
+
 
 DATABASE = "weather.db"
 TABLE = "weather"

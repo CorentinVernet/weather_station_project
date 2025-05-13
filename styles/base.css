@@ -1,10 +1,19 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  text-align: center;
-  align-items: center;
   font-family: "Courier New", Courier, monospace;
-  font-size: 60px;
-  background-size: cover;
+  font-size: 2rem;
+  text-align: center;
   color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  padding: 1rem;
 }
 
 #background-video {
@@ -13,49 +22,61 @@ body {
   object-fit: cover;
   position: fixed;
   left: 0;
-  right: 0;
   top: 0;
   z-index: -1;
 }
 
+@media (max-width: 768px) {
+  #background-video {
+    display: none;
+  }
+
+  body {
+    background-image: url("../img/static_background.png");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
 h1 {
   mix-blend-mode: difference;
-  margin-bottom: auto;
-  margin-top: auto;
+  font-size: 3rem;
+  margin: 1rem 0;
 }
 
 .header-content {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   padding: 20px;
-  background-color: rgba(74, 72, 72, 0.251);
+  background-color: rgba(74, 72, 72, 0.3);
   backdrop-filter: blur(8px);
   border-radius: 10px;
 }
 
 .left-side,
-.right-side {
+.right-side,
+.center-content {
+  flex: 1 1 200px;
   display: flex;
+  justify-content: center;
   align-items: center;
-}
-
-.left-side {
-  justify-content: flex-start;
-  flex: 1;
-}
-
-.right-side {
-  justify-content: space-around;
-  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .label-text {
   font-family: "Source Code Pro", monospace;
-  color: black;
-  font-size: 0.5em;
-  display: block;
-  margin-bottom: 5px;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.clock-display {
+  font-size: 1.5rem;
+  color: white;
 }
 
 #temperature,
@@ -67,6 +88,32 @@ h1 {
 #pressur,
 #luminosity {
   font-family: "Source Code Pro", monospace;
-  font-size: auto;
-  background-color: #c8bcdc93;
+  background-color: rgba(200, 188, 220, 0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 2px solid #fff;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #ff8400;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #cc6a00;
+}
+
+a {
+  display: block;
+  margin-top: 20px;
+  color: #ffffff;
+  text-decoration: underline;
+  font-size: 1rem;
 }

@@ -1,10 +1,9 @@
 import { updateDateTime } from "./dateTime.js";
 import { showCalendar } from "./headerContent/calendar.js";
 
-// Appel à l'API
 async function fetchLatestData() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/latest");
+    const response = await fetch("http://192.168.53.198:5000/api/latest");
     const data = await response.json();
     console.log("Données reçues de l'API:", data);
     return data;
@@ -14,7 +13,6 @@ async function fetchLatestData() {
   }
 }
 
-// Mise à jour des données capteurs
 window.updateTemperature = async function () {
   const data = await fetchLatestData();
   document.getElementById("temperature").innerText =
@@ -45,7 +43,6 @@ window.updateLuminosity = async function () {
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
 };
 
-// Mise à jour globale
 window.updateAll = async function () {
   const data = await fetchLatestData();
 
@@ -61,7 +58,6 @@ window.updateAll = async function () {
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
 };
 
-// Historique météo
 window.showHistory = async function () {
   const selectedDate = document.getElementById("history-date").value;
   if (!selectedDate) {
@@ -71,12 +67,12 @@ window.showHistory = async function () {
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:5000/api/history?date=${selectedDate}`
+      `http://192.168.53.198:5000/api/latest?date=${date}`
     );
     const historyData = await response.json();
 
     const container = document.getElementById("history-results");
-    container.innerHTML = ""; // Vide les anciens résultats
+    container.innerHTML = "";
 
     if (historyData.length === 0) {
       container.innerText = "Aucune donnée disponible pour cette date.";
@@ -101,13 +97,11 @@ window.showHistory = async function () {
   }
 };
 
-// Initialisation
 document.addEventListener("DOMContentLoaded", () => {
   updateAll();
   updateDateTime();
   showCalendar();
 
-  // Écouteur pour l'historique
   const historyButton = document.getElementById("btn-show-history");
   if (historyButton) {
     historyButton.addEventListener("click", showHistory);

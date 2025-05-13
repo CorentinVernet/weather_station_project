@@ -46,7 +46,6 @@ function populateTable(data) {
   });
 }
 
-// Tri dynamique
 document.querySelectorAll("#history-table th").forEach((header) => {
   header.addEventListener("click", () => {
     const key = header.getAttribute("data-key");
