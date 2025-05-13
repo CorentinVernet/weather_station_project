@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
-CORS(app, origins="*")  # Permet l'accès à l'API depuis n'importe quelle origine
+CORS(app, origins="*") 
 
 
 DATABASE = "weather.db"
@@ -49,7 +49,7 @@ def get_weather_history():
     """, (date,))
     
     rows = cursor.fetchall()
-    keys = [description[0] for description in cursor.description]  # Doit être récupéré avant conn.close()
+    keys = [description[0] for description in cursor.description]  
     conn.close()
 
     data = [dict(zip(keys, row)) for row in rows]
