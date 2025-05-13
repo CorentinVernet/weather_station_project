@@ -21,7 +21,7 @@
 
       <div class="header-content">
         <div class="left-side">
-          <h3 id="global-weather-text">Maintenance...</h3>
+          <h5 id="global-weather-text">Maintenance...</h5>
         </div>
 
         <div class="center-content">
@@ -40,6 +40,7 @@
           <img src="img/components_logo/thermometer.svg" class="labels_icons" />
           <span class="label-text">Température :</span>
           <fieldset id="temperature">--</fieldset>
+          <button onclick="updateTemperature()">Rafraichir</button>
         </label>
 
         <label>
@@ -52,6 +53,7 @@
           <img src="img/components_logo/rain_height.svg" class="labels_icons" />
           <span class="label-text">Hauteur de pluie :</span>
           <fieldset id="rain_height">--</fieldset>
+          <button onclick="updateRain()">Rafraichir</button>
         </label>
 
         <label>
@@ -82,6 +84,7 @@
           />
           <span class="label-text">Pression Atmosphérique :</span>
           <fieldset id="pressur">--</fieldset>
+          <button onclick="updatePressure()">Rafraichir</button>
         </label>
 
         <label>
@@ -98,7 +101,7 @@
         </button>
       </div>
 
-      <a href="history.html">Voir l'historique détaillé</a>
+      <a href="history.html">Voir l'historique des données...</a>
     </header>
 
     <script type="module" src="js/main.js"></script>

@@ -1,9 +1,9 @@
 #global-weather-text {
-  font-size: 100px;
+  font-size: 2rem;
   font-weight: bold;
   margin-top: 0;
   text-align: center;
-  padding: 20px;
+  padding: 40px;
   border-style: inset;
   border-width: 13px;
   border-radius: 9px;

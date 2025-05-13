@@ -40,7 +40,7 @@ body {
 
 h1 {
   mix-blend-mode: difference;
-  font-size: 3rem;
+  font-size: 6rem;
   margin: 1rem 0;
 }
 
@@ -101,19 +101,20 @@ button {
   font-size: 1rem;
   border-radius: 6px;
   border: none;
-  background-color: #ff8400;
+  background-color: #1c40e0da;
   color: white;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #cc6a00;
+  background-color: #1c40e0da;
 }
 
 a {
   display: block;
   margin-top: 20px;
-  color: #ffffff;
-  text-decoration: underline;
-  font-size: 1rem;
+  margin: 1em;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1em;
 }
