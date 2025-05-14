@@ -3,8 +3,7 @@ from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
-CORS(app, origins="*") 
-
+CORS(app, origins="*")
 
 DATABASE = "weather.db"
 TABLE = "weather"
@@ -30,7 +29,8 @@ def get_latest_weather():
         "humidity": get_last_non_null_value("humidity"),
         "pressure": get_last_non_null_value("pressure"),
         "rain_height": get_last_non_null_value("rain_height"),
-        "luminosity": get_last_non_null_value("luminosity")
+        "luminosity": get_last_non_null_value("luminosity"),
+        "altitude": get_last_non_null_value("altitude")
     }
     return jsonify(result)
 

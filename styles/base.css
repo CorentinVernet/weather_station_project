@@ -86,7 +86,8 @@ h1 {
 #hygrometrie,
 #polution,
 #pressur,
-#luminosity {
+#luminosity,
+#altitude {
   font-family: "Source Code Pro", monospace;
   background-color: rgba(200, 188, 220, 0.7);
   padding: 0.5rem 1rem;

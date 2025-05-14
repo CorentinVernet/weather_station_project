@@ -3,7 +3,9 @@ import { showCalendar } from "./headerContent/calendar.js";
 
 async function fetchLatestData() {
   try {
-    const response = await fetch("http://192.168.53.198:5000/api/latest");
+    const response = await fetch(
+      "http://10.30.1.2:5000/api/latest"
+    ); /*Adresse IP ici a changer*/
     const data = await response.json();
     console.log("Données reçues de l'API:", data);
     return data;
@@ -43,6 +45,12 @@ window.updateLuminosity = async function () {
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
 };
 
+window.updateAltitude = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("altitude").innerText =
+    data.altitude !== null ? `${data.altitude} m` : "--";
+};
+
 window.updateAll = async function () {
   const data = await fetchLatestData();
 
@@ -56,6 +64,8 @@ window.updateAll = async function () {
     data.rain_height !== null ? `${data.rain_height} mm` : "--";
   document.getElementById("luminosity").innerText =
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
+  document.getElementById("altitude").innerText =
+    data.altitude !== null ? `${data.altitude} m` : "--";
 };
 
 window.showHistory = async function () {
@@ -67,7 +77,7 @@ window.showHistory = async function () {
 
   try {
     const response = await fetch(
-      `http://192.168.53.198:5000/api/latest?date=${date}` /*Adresse IP ici a changer*/
+      `http://10.30.1.2:5000/api/latest?date=${date}` /*Adresse IP ici a changer*/
     );
     const historyData = await response.json();
 

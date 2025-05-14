@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const date = dateInput.value;
     if (date) {
       fetch(
-        `http://192.168.53.198:5000/api/history?date=${date}`
+        `http://10.30.1.2:5000/api/history?date=${date}`
       ) /*Adresse IP ici a changer*/
         .then((response) => response.json())
         .then((data) => populateTable(data))
@@ -42,12 +42,12 @@ function populateTable(data) {
       <td>${row.pressure ?? "--"}</td>
       <td>${row.rain_height ?? "--"}</td>
       <td>${row.luminosity ?? "--"}</td>
+      <td>${row.altitude ?? "--"}</td>
     `;
 
     tbody.appendChild(tr);
   });
 }
-
 document.querySelectorAll("#history-table th").forEach((header) => {
   header.addEventListener("click", () => {
     const key = header.getAttribute("data-key");

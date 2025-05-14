@@ -5,15 +5,17 @@ import time
 import re
 import threading
 
-arduino_port_temp_pressure = "COM5"
+arduino_port_temp_pressure = "COM4"
 arduino_port_rain_height = "COM6"
-arduino_port_luminosity = "COM9"
+arduino_port_luminosity = "COM5"
+arduino_port_altitude = "COM3"
 
 baud_rate = 9600
 
 ser_temp_pressure = serial.Serial(arduino_port_temp_pressure, baud_rate, timeout=0.1)
 ser_rain_height = serial.Serial(arduino_port_rain_height, baud_rate, timeout=0.1)
 ser_luminosity = serial.Serial(arduino_port_luminosity, baud_rate, timeout=0.1)
+ser_altitude = serial.Serial(arduino_port_altitude, baud_rate, timeout=0.1) 
 
 db_path = "weather.db"
 
@@ -28,7 +30,8 @@ def init_db():
             humidity REAL,
             pressure REAL,
             rain_height REAL,
-            luminosity REAL
+            luminosity REAL,
+            altitude REAL  -- Nouvelle colonne pour l'altitude
         )
     """)
     conn.commit()
@@ -60,6 +63,14 @@ def read_from_arduino_luminosity():
         data['luminosity'] = luminosity
     return data
 
+def read_from_arduino_altitude():
+    line = ser_altitude.readline().decode().strip() 
+    data = {}
+    match = re.match(r"Altitude:\s*([\d\.]+)\s*m", line)
+    if match:
+        data['altitude'] = float(match.group(1))
+    return data
+
 def insert_into_db(data):
     try:
         conn = sqlite3.connect(db_path)
@@ -70,19 +81,21 @@ def insert_into_db(data):
             "humidity": data.get("humidity"),
             "pressure": data.get("pressure"),
             "rain_height": data.get("rain_height"),
-            "luminosity": data.get("luminosity")
+            "luminosity": data.get("luminosity"),
+            "altitude": data.get("altitude")
         }
 
         cursor.execute("""
-            INSERT INTO weather (timestamp, temperature, humidity, pressure, rain_height, luminosity)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO weather (timestamp, temperature, humidity, pressure, rain_height, luminosity, altitude)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         """, (
             datetime.now().isoformat(),
             mapped_data["temperature"],
             mapped_data["humidity"],
             mapped_data["pressure"],
             mapped_data["rain_height"],
-            mapped_data["luminosity"]
+            mapped_data["luminosity"],
+            mapped_data["altitude"] 
         ))
 
         conn.commit()
@@ -99,7 +112,6 @@ def read_sensors():
         now = datetime.now()
         current_minute = now.minute
 
-        # Lire les données des capteurs en temps réel
         temp_pressure_data = read_from_arduino_temp_pressure()
         current_data.update(temp_pressure_data)
 
@@ -109,16 +121,16 @@ def read_sensors():
         luminosity_data = read_from_arduino_luminosity()
         current_data.update(luminosity_data)
 
-        # Afficher les données en temps réel
+        altitude_data = read_from_arduino_altitude() 
+        current_data.update(altitude_data)
 
-        # Insérer dans la base de données une fois par minute
         if current_minute != last_insert_minute:
-            if current_data:  # Si les données ne sont pas vides
+            if current_data:  
                 insert_into_db(current_data)
             
-            last_insert_minute = current_minute  # Mettre à jour la dernière minute insérée
+            last_insert_minute = current_minute 
 
-        time.sleep(1)  # Attendre 1 seconde avant la prochaine lecture
+        time.sleep(1) 
 
 if __name__ == "__main__":
     init_db()
