@@ -1,5 +1,24 @@
-# weather_station_project
+### weather_station_project
 
-Is a weather station project to build a site to manage data.
+# Station Météo
+
+Ce projet est une station météo connectée qui récupère des données en temps réel (comme la température, la pression atmosphérique, l'humidité, la hauteur de pluie, etc.) via des capteurs connectés à un microcontrôleur (Arduino) et les affiche sur un site web.
+
+Le projet comprend un back-end en Python (Flask) qui sert les données via une API, un front-end en HTML, CSS, et JavaScript pour afficher les informations et un Arduino qui capte les données environnementales.
+Fonctionnalités
+
+    Vue en temps réel : La page principale affiche des informations en temps réel sur la température, l'humidité, la pression atmosphérique, la hauteur de pluie, la luminosité, l'altitude et plus encore.
+
+    Historique des données : Une page d'historique permet de consulter les données passées en fonction d'une date spécifique grâce à la base de données.
+
+    Actualisation des données : Les utilisateurs peuvent actualiser manuellement les données ou tout actualiser en un clic.
+
+##
+
+Pour lancer le projet, il faut :
+
+    - Brancher les capteurs sur l'ordinateur et changer les port en fonction des capteurs.
+
+    - Lancer le fichier  **arduino_reader.py**
 
 attention pour l'adresse ip, mettre celle de l'ordinateur !
