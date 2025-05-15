@@ -1,0 +1,706 @@
+index.html
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather Station</title>
+    <video id="background-video" autoplay loop muted>
+      <source src="img/video_background.mp4" type="video/mp4" />
+    </video>
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/layout.css" />
+    <link rel="stylesheet" href="styles/typography.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+    <link rel="stylesheet" href="styles/calendar.css" />
+    <link rel="stylesheet" href="styles/globalWeather.css" />
+  </head>
+  <body>
+    <header>
+      <h1>METEO</h1>
+
+      <div class="header-content">
+        <div class="left-side">
+          <h5 id="global-weather-text">Maintenance...</h5>
+        </div>
+
+        <div class="center-content">
+          <img class="logo" src="img/logo_stjacques.png" />
+          <div id="date" class="clock-display"></div>
+          <div id="time" class="clock-display"></div>
+        </div>
+
+        <div class="right-side">
+          <h3 id="calendar">Loading...</h3>
+        </div>
+      </div>
+
+      <div class="labels-container">
+        <label>
+          <img src="img/components_logo/thermometer.svg" class="labels_icons" />
+          <span class="label-text">Température :</span>
+          <fieldset id="temperature">--</fieldset>
+          <button onclick="updateTemperature()">Rafraichir</button>
+        </label>
+
+        <label>
+          <img src="img/components_logo/wind_speed.svg" class="labels_icons" />
+          <span class="label-text">Vitesse du vent :</span>
+          <fieldset id="wind-speed">--</fieldset>
+        </label>
+
+        <label>
+          <img src="img/components_logo/rain_height.svg" class="labels_icons" />
+          <span class="label-text">Hauteur de pluie :</span>
+          <fieldset id="rain_height">--</fieldset>
+          <button onclick="updateRain()">Rafraichir</button>
+        </label>
+
+        <label>
+          <img
+            src="img/components_logo/wind_direction.png"
+            class="labels_icons"
+          />
+          <span class="label-text">Direction du vent :</span>
+          <fieldset id="windDirection">--</fieldset>
+        </label>
+
+        <label>
+          <img src="img/components_logo/water_drop.png" class="labels_icons" />
+          <span class="label-text">Humidité :</span>
+          <fieldset id="hygrometrie">--</fieldset>
+        </label>
+
+        <label>
+          <img src="img/components_logo/polution.svg" class="labels_icons" />
+          <span class="label-text">Pollution de l'air:</span>
+          <fieldset id="polution">--</fieldset>
+        </label>
+
+        <label>
+          <img
+            src="img/components_logo/atmospheric_pressure.png"
+            class="labels_icons"
+          />
+          <span class="label-text">Pression Atmosphérique :</span>
+          <fieldset id="pressur">--</fieldset>
+          <button onclick="updatePressure()">Rafraichir</button>
+        </label>
+
+        <label>
+          <img src="img/components_logo/brightness.png" class="labels_icons" />
+          <span class="label-text">Luminosité :</span>
+          <fieldset id="luminosity">--</fieldset>
+          <button onclick="updateLuminosity()">Rafraichir</button>
+        </label>
+
+        <label>
+          <img src="img/components_logo/brightness.png" class="labels_icons" />
+          <span class="label-text">Altitude :</span>
+          <fieldset id="altitude">--</fieldset>
+          <button onclick="updateAltitude()">Rafraichir</button>
+        </label>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px">
+        <button onclick="updateAll()" style="padding: 10px 20px">
+          🔄 Actualiser toutes les données
+        </button>
+      </div>
+
+      <a href="history.html">Voir l'historique des données...</a>
+    </header>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
+
+
+history.html
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historique Météo</title>
+    <link rel="stylesheet" href="styles/history_styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <button id="back-button">← Retour à la station</button>
+      <h1>Historique des Données Météo</h1>
+
+      <label for="date-select">Choisir une date :</label>
+      <input type="date" id="date-select" />
+
+      <table id="history-table">
+        <thead>
+          <tr>
+            <th data-key="timestamp">Heure</th>
+            <th data-key="temperature">Température (°C)</th>
+            <th data-key="humidity">Humidité (%)</th>
+            <th data-key="pressure">Pression (hPa)</th>
+            <th data-key="rain_height">Pluie (mm)</th>
+            <th data-key="luminosity">Luminosité (lux)</th>
+            <th data-key="altitude">Altitude (m)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <script src="js/history.js"></script>
+  </body>
+</html>
+
+
+main.js : 
+
+import { updateDateTime } from "./dateTime.js";
+import { showCalendar } from "./headerContent/calendar.js";
+
+async function fetchLatestData() {
+  try {
+    const response = await fetch(
+      "http://10.30.1.2:5000/api/latest"
+    ); /*Adresse IP ici a changer*/
+    const data = await response.json();
+    console.log("Données reçues de l'API:", data);
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données météo :", error);
+    return {};
+  }
+}
+
+window.updateTemperature = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("temperature").innerText =
+    data.temperature !== null ? `${data.temperature} °C` : "--";
+};
+
+window.updateHumidity = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("hygrometrie").innerText =
+    data.humidity !== null ? `${data.humidity} %` : "--";
+};
+
+window.updatePressure = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("pressur").innerText =
+    data.pressure !== null ? `${data.pressure} hPa` : "--";
+};
+
+window.updateRain = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("rain_height").innerText =
+    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+};
+
+window.updateLuminosity = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("luminosity").innerText =
+    data.luminosity !== null ? `${data.luminosity} lux` : "--";
+};
+
+window.updateAltitude = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("altitude").innerText =
+    data.altitude !== null ? `${data.altitude} m` : "--";
+};
+
+window.updateAll = async function () {
+  const data = await fetchLatestData();
+
+  document.getElementById("temperature").innerText =
+    data.temperature !== null ? `${data.temperature} °C` : "--";
+  document.getElementById("hygrometrie").innerText =
+    data.humidity !== null ? `${data.humidity} %` : "--";
+  document.getElementById("pressur").innerText =
+    data.pressure !== null ? `${data.pressure} hPa` : "--";
+  document.getElementById("rain_height").innerText =
+    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+  document.getElementById("luminosity").innerText =
+    data.luminosity !== null ? `${data.luminosity} lux` : "--";
+  document.getElementById("altitude").innerText =
+    data.altitude !== null ? `${data.altitude} m` : "--";
+};
+
+window.showHistory = async function () {
+  const selectedDate = document.getElementById("history-date").value;
+  if (!selectedDate) {
+    alert("Veuillez sélectionner une date.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `http://10.30.1.2:5000/api/latest?date=${date}` /*Adresse IP ici a changer*/
+    );
+    const historyData = await response.json();
+
+    const container = document.getElementById("history-results");
+    container.innerHTML = "";
+
+    if (historyData.length === 0) {
+      container.innerText = "Aucune donnée disponible pour cette date.";
+      return;
+    }
+
+    historyData.forEach((entry) => {
+      const div = document.createElement("div");
+      div.className = "history-entry";
+      div.innerText = `${entry.timestamp} | Temp: ${
+        entry.temperature ?? "--"
+      } °C, Humidité: ${entry.humidity ?? "--"} %, Pression: ${
+        entry.pressure ?? "--"
+      } hPa, Pluie: ${entry.rain_height ?? "--"} mm, Luminosité: ${
+        entry.luminosity ?? "--"
+      } lux`;
+      container.appendChild(div);
+    });
+  } catch (error) {
+    console.error("Erreur lors du chargement de l'historique :", error);
+    alert("Erreur lors du chargement de l'historique.");
+  }
+};
+
+
+history.js :
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateAll();
+  updateDateTime();
+  showCalendar();
+
+  const historyButton = document.getElementById("btn-show-history");
+  if (historyButton) {
+    historyButton.addEventListener("click", showHistory);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dateInput = document.getElementById("date-select");
+  const backButton = document.getElementById("back-button");
+
+  backButton.addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
+
+  dateInput.addEventListener("change", () => {
+    const date = dateInput.value;
+    if (date) {
+      fetch(
+        `http://10.30.1.2:5000/api/history?date=${date}`
+      ) /*Adresse IP ici a changer*/
+        .then((response) => response.json())
+        .then((data) => populateTable(data))
+        .catch((error) => {
+          console.error("Erreur de chargement des données :", error);
+          alert("Erreur lors du chargement des données. (Probleme avec l'API)");
+        });
+    }
+  });
+});
+
+function populateTable(data) {
+  const tbody = document.querySelector("#history-table tbody");
+  tbody.innerHTML = "";
+
+  data.forEach((row) => {
+    const tr = document.createElement("tr");
+
+    const time = new Date(row.timestamp);
+    const timeFormatted = time.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    tr.innerHTML = `
+      <td data-timestamp="${row.timestamp}">${timeFormatted}</td>
+      <td>${row.temperature ?? "--"}</td>
+      <td>${row.humidity ?? "--"}</td>
+      <td>${row.pressure ?? "--"}</td>
+      <td>${row.rain_height ?? "--"}</td>
+      <td>${row.luminosity ?? "--"}</td>
+      <td>${row.altitude ?? "--"}</td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+document.querySelectorAll("#history-table th").forEach((header) => {
+  header.addEventListener("click", () => {
+    const key = header.getAttribute("data-key");
+    const isCurrentlyAsc = header.classList.contains("asc");
+    const ascending = !isCurrentlyAsc;
+
+    document
+      .querySelectorAll("#history-table th")
+      .forEach((th) => th.classList.remove("asc", "desc"));
+    header.classList.add(ascending ? "asc" : "desc");
+
+    const tbody = document.querySelector("#history-table tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    rows.sort((a, b) => {
+      const aCell = a.querySelector(`td:nth-child(${header.cellIndex + 1})`);
+      const bCell = b.querySelector(`td:nth-child(${header.cellIndex + 1})`);
+
+      if (key === "timestamp") {
+        const aDate = new Date(aCell.getAttribute("data-timestamp"));
+        const bDate = new Date(bCell.getAttribute("data-timestamp"));
+        return ascending ? aDate - bDate : bDate - aDate;
+      }
+
+      const aVal = aCell.textContent;
+      const bVal = bCell.textContent;
+      const aNum = parseFloat(aVal);
+      const bNum = parseFloat(bVal);
+      const bothNumbers = !isNaN(aNum) && !isNaN(bNum);
+
+      if (bothNumbers) {
+        return ascending ? aNum - bNum : bNum - aNum;
+      } else {
+        return ascending ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
+    });
+
+    rows.forEach((row) => tbody.appendChild(row));
+  });
+});
+
+
+arduino_reader.py : 
+
+import serial
+import sqlite3
+from datetime import datetime
+import time
+import re
+import threading
+
+arduino_port_temp_pressure = "COM4"
+arduino_port_rain_height = "COM6"
+arduino_port_luminosity = "COM5"
+arduino_port_altitude = "COM3"
+
+baud_rate = 9600
+
+ser_temp_pressure = serial.Serial(arduino_port_temp_pressure, baud_rate, timeout=0.1)
+ser_rain_height = serial.Serial(arduino_port_rain_height, baud_rate, timeout=0.1)
+ser_luminosity = serial.Serial(arduino_port_luminosity, baud_rate, timeout=0.1)
+ser_altitude = serial.Serial(arduino_port_altitude, baud_rate, timeout=0.1) 
+
+db_path = "weather.db"
+
+def init_db():
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS weather (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp TEXT,
+            temperature REAL,
+            humidity REAL,
+            pressure REAL,
+            rain_height REAL,
+            luminosity REAL,
+            altitude REAL  -- Nouvelle colonne pour l'altitude
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def read_from_arduino_temp_pressure():
+    line = ser_temp_pressure.readline().decode().strip()
+    data = {}
+    match = re.match(r"Temp:\s*([\d\.]+)\s*C,\s*Press:\s*([\d\.]+)\s*hPa", line)
+    if match:
+        data['temperature'] = float(match.group(1))
+        data['pressure'] = float(match.group(2))
+    return data
+
+def read_from_arduino_rain_height():
+    line = ser_rain_height.readline().decode().strip()
+    data = {}
+    match = re.match(r"Gouttes detectee:\s*(\d+)", line)
+    if match:
+        data['rain_height'] = float(match.group(1))
+    return data
+
+def read_from_arduino_luminosity():
+    line = ser_luminosity.readline().decode().strip()
+    data = {}
+    match = re.match(r"Luminosité:\s*(\d+)", line) 
+    if match:
+        luminosity = float(match.group(1))  
+        data['luminosity'] = luminosity
+    return data
+
+def read_from_arduino_altitude():
+    line = ser_altitude.readline().decode().strip() 
+    data = {}
+    match = re.match(r"Altitude:\s*([\d\.]+)\s*m", line)
+    if match:
+        data['altitude'] = float(match.group(1))
+    return data
+
+def insert_into_db(data):
+    try:
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+
+        mapped_data = {
+            "temperature": data.get("temperature"),
+            "humidity": data.get("humidity"),
+            "pressure": data.get("pressure"),
+            "rain_height": data.get("rain_height"),
+            "luminosity": data.get("luminosity"),
+            "altitude": data.get("altitude")
+        }
+
+        cursor.execute("""
+            INSERT INTO weather (timestamp, temperature, humidity, pressure, rain_height, luminosity, altitude)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            datetime.now().isoformat(),
+            mapped_data["temperature"],
+            mapped_data["humidity"],
+            mapped_data["pressure"],
+            mapped_data["rain_height"],
+            mapped_data["luminosity"],
+            mapped_data["altitude"] 
+        ))
+
+        conn.commit()
+        conn.close()
+
+    except Exception as e:
+        print(f"Erreur lors de l'insertion dans la base de données: {e}")
+
+def read_sensors():
+    last_insert_minute = -1
+    current_data = {}
+
+    while True:
+        now = datetime.now()
+        current_minute = now.minute
+
+        temp_pressure_data = read_from_arduino_temp_pressure()
+        current_data.update(temp_pressure_data)
+
+        rain_height_data = read_from_arduino_rain_height()
+        current_data.update(rain_height_data)
+
+        luminosity_data = read_from_arduino_luminosity()
+        current_data.update(luminosity_data)
+
+        altitude_data = read_from_arduino_altitude() 
+        current_data.update(altitude_data)
+
+        if current_minute != last_insert_minute:
+            if current_data:  
+                insert_into_db(current_data)
+            
+            last_insert_minute = current_minute 
+
+        time.sleep(1) 
+
+if __name__ == "__main__":
+    init_db()
+    sensor_thread = threading.Thread(target=read_sensors)
+    sensor_thread.start()
+
+
+weather_api.py : 
+
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+import sqlite3
+
+app = Flask(__name__)
+CORS(app, origins="*")
+
+DATABASE = "weather.db"
+TABLE = "weather"
+
+def get_last_non_null_value(field):
+    """Récupère la dernière valeur non nulle pour un champ donné."""
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute(f"""
+        SELECT {field} FROM {TABLE}
+        WHERE {field} IS NOT NULL
+        ORDER BY timestamp DESC
+        LIMIT 1
+    """)
+    result = cursor.fetchone()
+    conn.close()
+    return result[0] if result else None
+
+@app.route('/api/latest', methods=['GET'])
+def get_latest_weather():
+    result = {
+        "temperature": get_last_non_null_value("temperature"),
+        "humidity": get_last_non_null_value("humidity"),
+        "pressure": get_last_non_null_value("pressure"),
+        "rain_height": get_last_non_null_value("rain_height"),
+        "luminosity": get_last_non_null_value("luminosity"),
+        "altitude": get_last_non_null_value("altitude")
+    }
+    return jsonify(result)
+
+@app.route('/api/history', methods=['GET'])
+def get_weather_history():
+    date = request.args.get('date')
+    if not date:
+        return jsonify({"error": "Date manquante"}), 400
+
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute(f"""
+        SELECT * FROM {TABLE}
+        WHERE DATE(timestamp) = ?
+        ORDER BY timestamp ASC
+    """, (date,))
+    
+    rows = cursor.fetchall()
+    keys = [description[0] for description in cursor.description]  
+    conn.close()
+
+    data = [dict(zip(keys, row)) for row in rows]
+    return jsonify(data)
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)
+
+
+base.css : 
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 2rem;
+  text-align: center;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  padding: 1rem;
+}
+
+#background-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+@media (max-width: 768px) {
+  #background-video {
+    display: none;
+  }
+
+  body {
+    background-image: url("../img/static_background.png");
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+h1 {
+  mix-blend-mode: difference;
+  font-size: 6rem;
+  margin: 1rem 0;
+}
+
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 20px;
+  background-color: rgba(74, 72, 72, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+}
+
+.left-side,
+.right-side,
+.center-content {
+  flex: 1 1 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.label-text {
+  font-family: "Source Code Pro", monospace;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.clock-display {
+  font-size: 1.5rem;
+  color: white;
+}
+
+#temperature,
+#windDirection,
+#wind-speed,
+#rain_height,
+#hygrometrie,
+#polution,
+#pressur,
+#luminosity,
+#altitude {
+  font-family: "Source Code Pro", monospace;
+  background-color: rgba(200, 188, 220, 0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 2px solid #fff;
+  font-size: 1rem;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #1c40e0da;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1c40e0da;
+}
+
+a {
+  display: block;
+  margin-top: 20px;
+  margin: 1em;
+  color: #000000;
+  font-weight: bold;
+  font-size: 1em;
+}
+
