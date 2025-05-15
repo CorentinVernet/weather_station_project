@@ -19,6 +19,16 @@ Pour lancer le projet, il faut :
 
     - Brancher les capteurs sur l'ordinateur et changer les port en fonction des capteurs.
 
-    - Lancer le fichier  **arduino_reader.py**
+    - Lancer le fichier  `arduino_reader.py`
 
-attention pour l'adresse ip, mettre celle de l'ordinateur !
+    - Lancer le fichier `weather_api.py` (API)
+
+    - Il faut aussi lancer un serveur pour le site :
+        $ python -m http.server 8000
+
+#### Attention ! Il faut changer les adresses IP dans les fichiers :
+
+    - main.js (2x)
+    - history.js
+
+#### par celle de l'ordinateur.
