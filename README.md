@@ -20,8 +20,12 @@ Pour lancer le projet, il faut :
     - Brancher les capteurs sur l'ordinateur et changer les port en fonction des capteurs.
 
     - Lancer le fichier  `arduino_reader.py`
+            - $ python3 arduino_reader.py
 
     - Lancer le fichier `weather_api.py` (API)
+            - $ cd  cd weather_station_project/data_working/
+            - $ source venv/bin/activate
+            - $ python3 weather_api.py
 
     - Il faut aussi lancer un serveur pour le site :
         $ python -m http.server 8000
