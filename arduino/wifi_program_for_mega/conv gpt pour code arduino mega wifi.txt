@@ -1,0 +1,121 @@
+Pour cela, il te faut probablement utiliser une bibliothèque spécifique pour gérer la connexion Wi-Fi, et envoyer des données via HTTP à ton Raspberry Pi. Je vais te guider pour configurer ton Arduino Mega en Wi-Fi, en utilisant la bibliothèque WiFiNINA (qui est compatible avec les modèles Arduino Mega avec Wi-Fi intégré, comme le Mega 2560 Wi-Fi Rev3).
+
+1. Configuration de l'Arduino Mega avec Wi-Fi intégré :
+Voici un exemple de code pour connecter ton Arduino Mega avec Wi-Fi intégré au Wi-Fi, et envoyer des données via HTTP à ton Raspberry Pi.
+
+Code Arduino pour l’Arduino Mega avec Wi-Fi intégré :
+cpp
+Copier
+Modifier
+#include <SPI.h>
+#include <WiFiNINA.h>
+
+// Remplace ces informations par ton SSID et ton mot de passe Wi-Fi
+const char* ssid = "ton_SSID";          // Remplace par ton SSID
+const char* password = "ton_mot_de_passe";  // Remplace par ton mot de passe Wi-Fi
+
+// L'IP de ton Raspberry Pi (assurez-toi que l'IP est correcte)
+const char* host = "192.168.4.1";  // IP de ton Raspberry Pi (si tu utilises un hotspot, c'est généralement 192.168.4.1)
+const int port = 5000;              // Le port de ton API Flask
+
+WiFiClient client;
+
+void setup() {
+  // Démarre la communication série
+  Serial.begin(9600);
+
+  // Vérifie si le module Wi-Fi est bien disponible
+  if (WiFi.status() == WL_NO_MODULE) {
+    Serial.println("Module Wi-Fi non trouvé.");
+    while (true);
+  }
+
+  // Connexion au Wi-Fi
+  Serial.print("Connexion au Wi-Fi");
+  while (WiFi.begin(ssid, password) != WL_CONNECTED) {
+    Serial.print(".");
+    delay(1000);
+  }
+
+  Serial.println("Connecté au Wi-Fi !");
+  Serial.print("Adresse IP de l'Arduino : ");
+  Serial.println(WiFi.localIP());  // Affiche l'adresse IP de l'Arduino
+
+  // Envoie de données au Raspberry Pi
+  sendDataToRaspberryPi();
+}
+
+void sendDataToRaspberryPi() {
+  // Essaye de se connecter à l'API Flask sur le Raspberry Pi
+  if (client.connect(host, port)) {
+    Serial.println("Connecté au Raspberry Pi.");
+
+    // Données d'exemple à envoyer (à adapter avec tes capteurs)
+    String data = "temperature=25&humidity=60";  // Remplace par les données réelles
+
+    // Création de la requête HTTP
+    client.print("GET /api/data?data=" + data + " HTTP/1.1\r\n");
+    client.print("Host: " + String(host) + "\r\n");
+    client.print("Connection: close\r\n\r\n");
+
+    // Attente de la réponse du serveur
+    while (client.available()) {
+      String line = client.readStringUntil('\r');
+      Serial.print(line);
+    }
+    client.stop();
+    Serial.println("\nDonnées envoyées au Raspberry Pi.");
+  } else {
+    Serial.println("Connexion échouée au Raspberry Pi.");
+  }
+}
+
+void loop() {
+  // Tu peux ici ajouter des capteurs pour envoyer des données régulièrement
+  // Par exemple, tu pourrais envoyer des données toutes les 60 secondes
+  delay(60000);  // Envoi toutes les 60 secondes (1 minute)
+}
+2. Explication du code :
+Connexion Wi-Fi : Le code tente de connecter l’Arduino Mega au réseau Wi-Fi en utilisant le SSID et le mot de passe fournis.
+
+Envoi des données : Une fois connecté, l’Arduino envoie des données à ton Raspberry Pi via une requête HTTP GET à l'API Flask (qui écoute sur le port 5000).
+
+Les données sont envoyées sous forme de temperature=25&humidity=60. Cela simule l’envoi de la température et de l’humidité. Tu peux remplacer cela par des valeurs provenant de tes capteurs.
+
+Délai entre les envois : L’Arduino envoie des données toutes les 60 secondes.
+
+3. Code pour l’API Flask sur le Raspberry Pi :
+Voici une partie du code de l’API Flask pour accepter ces données sur ton Raspberry Pi :
+
+python
+Copier
+Modifier
+@app.route('/api/data', methods=['GET'])
+def receive_data():
+    data = request.args.get('data')
+    print(f"Data received: {data}")  # Affiche les données dans le terminal du Raspberry Pi
+
+    # Tu peux insérer ces données dans ta base de données SQLite, si nécessaire
+    # Par exemple :
+    # insert_into_db(parsed_data)
+
+    return jsonify({"status": "success"})
+L'API Flask sur ton Raspberry Pi écoutera les requêtes HTTP GET envoyées par l’Arduino et affichera les données dans la console.
+
+4. Installation de la bibliothèque WiFiNINA sur l'Arduino IDE :
+Ouvre l’Arduino IDE.
+
+Va dans Outils > Gestionnaire de bibliothèques.
+
+Cherche WiFiNINA et installe-la. C’est la bibliothèque nécessaire pour gérer les modules Wi-Fi intégrés, y compris le Wi-Fi de l’Arduino Mega 2560 Wi-Fi Rev3.
+
+Sélectionne ton modèle d’Arduino Mega (Arduino Mega 2560) dans Outils > Type de carte.
+
+5. Tester la communication :
+Téléverse le code sur ton Arduino Mega.
+
+Vérifie le moniteur série pour voir si l’Arduino se connecte correctement au réseau Wi-Fi et si l’IP est bien affichée.
+
+Si tout est correct, l’Arduino enverra des données à ton Raspberry Pi toutes les 60 secondes.
+
+Sur ton Raspberry Pi, tu devrais voir les données s’afficher dans les logs de Flask.
