@@ -36,7 +36,7 @@ window.updatePressure = async function () {
 window.updateRain = async function () {
   const data = await fetchLatestData();
   document.getElementById("rain_height").innerText =
-    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+    data.rain_height !== null ? `${data.rain_height} ml` : "--";
 };
 
 window.updateLuminosity = async function () {
