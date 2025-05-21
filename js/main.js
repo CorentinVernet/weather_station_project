@@ -51,6 +51,18 @@ window.updateAltitude = async function () {
     data.altitude !== null ? `${data.altitude} m` : "--";
 };
 
+window.updateWindSpeed = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("wind_speed").innerText =
+    data.wind_speed !== null ? `${data.wind_speed} km/h` : "--";
+};
+
+window.updateWindDirection = async function () {
+  const data = await fetchLatestData();
+  document.getElementById("wind_direction").innerText =
+    data.wind_direction !== null ? data.wind_direction : "--";
+};
+
 window.updateAll = async function () {
   const data = await fetchLatestData();
 
