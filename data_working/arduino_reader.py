@@ -86,7 +86,6 @@ def read_from_arduino_wind():
     wind_speed = None
     wind_direction = None
 
-    # Lire jusqu'à 5 lignes pour trouver à la fois la vitesse et la direction
     for _ in range(5):
         line = ser_wind.readline().decode().strip()
         if not line:
@@ -94,21 +93,14 @@ def read_from_arduino_wind():
 
         print(f"[VENT] Ligne reçue : {line}")
 
-        # Détection de la vitesse du vent
-        match_speed = re.match(r"Vitesse du vent en Km/h\s*:\s*([\d\.]+)", line)
-        if match_speed:
-            wind_speed = float(match_speed.group(1))
+        # ✅ Nouveau format détecté
+        match = re.match(r"\[VENT\]\s*Wind_Speed:\s*([\d\.]+)\s*Km/h,\s*Wind_Direction:\s*(\w+)", line)
+        if match:
+            wind_speed = float(match.group(1))
+            wind_direction = match.group(2)
             print(f"[VENT] Vitesse = {wind_speed} Km/h")
-
-        # Détection de la direction du vent
-        match_dir = re.match(r"Direction:\s*(\w+)", line)
-        if match_dir:
-            wind_direction = match_dir.group(1)
             print(f"[VENT] Direction = {wind_direction}")
-
-        # Dès qu'on a les deux, on sort
-        if wind_speed is not None and wind_direction is not None:
-            break
+            break  # ✅ on a trouvé ce qu'on voulait
 
     if wind_speed is not None:
         data["wind_speed"] = wind_speed
