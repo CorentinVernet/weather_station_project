@@ -64,7 +64,7 @@ index.html
             class="labels_icons"
           />
           <span class="label-text">Direction du vent :</span>
-          <fieldset id="windDirection">--</fieldset>
+          <fieldset id="wind_direction">--</fieldset>
         </label>
 
         <label>
@@ -664,7 +664,7 @@ h1 {
 }
 
 #temperature,
-#windDirection,
+#wind_direction,
 #wind-speed,
 #rain_height,
 #hygrometrie,

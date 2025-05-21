@@ -66,6 +66,12 @@ window.updateAll = async function () {
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
   document.getElementById("altitude").innerText =
     data.altitude !== null ? `${data.altitude} m` : "--";
+
+  document.getElementById("wind_speed").innerText =
+    data.wind_speed !== null ? `${data.wind_speed} Km/h` : "--";
+
+  document.getElementById("wind_direction").innerText =
+    data.wind_direction !== null ? data.wind_direction : "--";
 };
 
 window.showHistory = async function () {

@@ -9,7 +9,6 @@ DATABASE = "weather.db"
 TABLE = "weather"
 
 def get_last_non_null_value(field):
-    """Récupère la dernière valeur non nulle pour un champ donné."""
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute(f"""
@@ -30,7 +29,9 @@ def get_latest_weather():
         "pressure": get_last_non_null_value("pressure"),
         "rain_height": get_last_non_null_value("rain_height"),
         "luminosity": get_last_non_null_value("luminosity"),
-        "altitude": get_last_non_null_value("altitude")
+        "altitude": get_last_non_null_value("altitude"),
+        "wind_speed": get_last_non_null_value("wind_speed"),
+        "wind_direction": get_last_non_null_value("wind_direction")
     }
     return jsonify(result)
 
@@ -49,11 +50,11 @@ def get_weather_history():
     """, (date,))
     
     rows = cursor.fetchall()
-    keys = [description[0] for description in cursor.description]  
+    keys = [description[0] for description in cursor.description]
     conn.close()
 
-    data = [dict(zip(keys, row)) for row in rows]
-    return jsonify(data)
+    results = [dict(zip(keys, row)) for row in rows]
+    return jsonify(results)
 
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+if __name__ == '__main__':
+    app.run(debug=True)

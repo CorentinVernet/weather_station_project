@@ -5,10 +5,11 @@ import time
 import re
 import threading
 
-# Ports USB des Arduino
-arduino_port_env = "COM4"           # Température, humidité, pression, altitude
-arduino_port_luminosity = "COM5"    # Luminosité
-arduino_port_rain = "COM6"          # Hauteur de pluie
+# Ports série
+arduino_port_env = "/dev/ttyUSB1"           # Température, humidité, pression, altitude
+arduino_port_luminosity = "/dev/ttyUSB0"    # Luminosité
+arduino_port_rain = "/dev/ttyUSB2"          # Pluie
+arduino_port_wind = "/dev/ttyUSB3"          # Vitesse et direction du vent
 
 baud_rate = 9600
 
@@ -16,6 +17,7 @@ baud_rate = 9600
 ser_env = serial.Serial(arduino_port_env, baud_rate, timeout=0.1)
 ser_luminosity = serial.Serial(arduino_port_luminosity, baud_rate, timeout=0.1)
 ser_rain = serial.Serial(arduino_port_rain, baud_rate, timeout=0.1)
+ser_wind = serial.Serial(arduino_port_wind, baud_rate, timeout=0.1)
 
 # Base de données
 db_path = "weather.db"
@@ -32,7 +34,9 @@ def init_db():
             pressure REAL,
             rain_height REAL,
             luminosity REAL,
-            altitude REAL
+            altitude REAL,
+            wind_speed REAL,
+            wind_direction TEXT
         )
     """)
     conn.commit()
@@ -41,7 +45,6 @@ def init_db():
 def read_from_arduino_env():
     line = ser_env.readline().decode().strip()
     data = {}
-    # Format attendu : Temp: 22.5 C, Hum: 45 %, Press: 1013 hPa, Alt: 200.5 m
     match = re.match(
         r"Temp:\s*([\d\.]+)\s*C,\s*Hum:\s*([\d\.]+)\s*%,\s*Press:\s*([\d\.]+)\s*hPa,\s*Alt:\s*([\d\.]+)\s*m",
         line
@@ -69,6 +72,15 @@ def read_from_arduino_rain():
         data['rain_height'] = float(match.group(1))
     return data
 
+def read_from_arduino_wind():
+    line = ser_wind.readline().decode().strip()
+    data = {}
+    match = re.match(r"Wind_Speed:\s*([\d\.]+)\s*Km/h,\s*Wind_Direction:\s*(\w+)", line)
+    if match:
+        data["wind_speed"] = float(match.group(1))
+        data["wind_direction"] = match.group(2)
+    return data
+
 def insert_into_db(data):
     try:
         conn = sqlite3.connect(db_path)
@@ -80,12 +92,17 @@ def insert_into_db(data):
             "pressure": data.get("pressure"),
             "rain_height": data.get("rain_height"),
             "luminosity": data.get("luminosity"),
-            "altitude": data.get("altitude")
+            "altitude": data.get("altitude"),
+            "wind_speed": data.get("wind_speed"),
+            "wind_direction": data.get("wind_direction")
         }
 
         cursor.execute("""
-            INSERT INTO weather (timestamp, temperature, humidity, pressure, rain_height, luminosity, altitude)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO weather (
+                timestamp, temperature, humidity, pressure, rain_height,
+                luminosity, altitude, wind_speed, wind_direction
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             datetime.now().isoformat(),
             mapped_data["temperature"],
@@ -93,7 +110,9 @@ def insert_into_db(data):
             mapped_data["pressure"],
             mapped_data["rain_height"],
             mapped_data["luminosity"],
-            mapped_data["altitude"]
+            mapped_data["altitude"],
+            mapped_data["wind_speed"],
+            mapped_data["wind_direction"]
         ))
 
         conn.commit()
@@ -110,17 +129,11 @@ def read_sensors():
         now = datetime.now()
         current_minute = now.minute
 
-        # Lecture capteur environnement
-        env_data = read_from_arduino_env()
-        current_data.update(env_data)
-
-        # Lecture luminosité
-        luminosity_data = read_from_arduino_luminosity()
-        current_data.update(luminosity_data)
-
-        # Lecture pluie
-        rain_data = read_from_arduino_rain()
-        current_data.update(rain_data)
+        # Lecture capteurs
+        current_data.update(read_from_arduino_env())
+        current_data.update(read_from_arduino_luminosity())
+        current_data.update(read_from_arduino_rain())
+        current_data.update(read_from_arduino_wind())
 
         if current_minute != last_insert_minute:
             if current_data:
