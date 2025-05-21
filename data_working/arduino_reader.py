@@ -5,7 +5,6 @@ import time
 import re
 import threading
 
-# Ports série
 arduino_port_env = "/dev/ttyUSB1"
 arduino_port_luminosity = "/dev/ttyUSB0"
 arduino_port_rain = "/dev/ttyUSB2"
@@ -13,13 +12,11 @@ arduino_port_wind = "/dev/ttyUSB3"
 
 baud_rate = 9600
 
-# Connexions série
 ser_env = serial.Serial(arduino_port_env, baud_rate, timeout=0.1)
 ser_luminosity = serial.Serial(arduino_port_luminosity, baud_rate, timeout=0.1)
 ser_rain = serial.Serial(arduino_port_rain, baud_rate, timeout=0.1)
 ser_wind = serial.Serial(arduino_port_wind, baud_rate, timeout=0.1)
 
-# Base de données
 db_path = "weather.db"
 
 def init_db():
@@ -93,14 +90,13 @@ def read_from_arduino_wind():
 
         print(f"[VENT] Ligne reçue : {line}")
 
-        # ✅ Nouveau format détecté
         match = re.match(r"\[VENT\]\s*Wind_Speed:\s*([\d\.]+)\s*Km/h,\s*Wind_Direction:\s*(\w+)", line)
         if match:
             wind_speed = float(match.group(1))
             wind_direction = match.group(2)
             print(f"[VENT] Vitesse = {wind_speed} Km/h")
             print(f"[VENT] Direction = {wind_direction}")
-            break  # ✅ on a trouvé ce qu'on voulait
+            break  
 
     if wind_speed is not None:
         data["wind_speed"] = wind_speed
@@ -159,19 +155,16 @@ def read_sensors():
         now = datetime.now()
         current_minute = now.minute
 
-        # Lecture des capteurs
         env = read_from_arduino_env()
         lum = read_from_arduino_luminosity()
         rain = read_from_arduino_rain()
         wind = read_from_arduino_wind()
 
-        # Mise à jour uniquement des champs non nuls
         current_data.update({k: v for k, v in env.items() if v is not None})
         current_data.update({k: v for k, v in lum.items() if v is not None})
         current_data.update({k: v for k, v in rain.items() if v is not None})
         current_data.update({k: v for k, v in wind.items() if v is not None})
 
-        # Insertion une fois par minute
         if current_minute != last_insert_minute:
             if any(value is not None for value in current_data.values()):
                 insert_into_db(current_data)
