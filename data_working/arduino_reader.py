@@ -6,10 +6,10 @@ import re
 import threading
 
 # Ports série
-arduino_port_env = "/dev/ttyUSB1"           # Température, humidité, pression, altitude
-arduino_port_luminosity = "/dev/ttyUSB0"    # Luminosité
-arduino_port_rain = "/dev/ttyUSB2"          # Pluie
-arduino_port_wind = "/dev/ttyUSB3"          # Vitesse et direction du vent
+arduino_port_env = "/dev/ttyUSB1"
+arduino_port_luminosity = "/dev/ttyUSB0"
+arduino_port_rain = "/dev/ttyUSB2"
+arduino_port_wind = "/dev/ttyUSB3"
 
 baud_rate = 9600
 
@@ -45,6 +45,8 @@ def init_db():
 def read_from_arduino_env():
     line = ser_env.readline().decode().strip()
     data = {}
+    if line:
+        print(f"[ENV] Ligne reçue : {line}")
     match = re.match(
         r"Temp:\s*([\d\.]+)\s*C,\s*Hum:\s*([\d\.]+)\s*%,\s*Press:\s*([\d\.]+)\s*hPa,\s*Alt:\s*([\d\.]+)\s*m",
         line
@@ -54,31 +56,44 @@ def read_from_arduino_env():
         data["humidity"] = float(match.group(2))
         data["pressure"] = float(match.group(3))
         data["altitude"] = float(match.group(4))
+        print(f"[ENV] Température={data['temperature']}°C, Humidité={data['humidity']}%, Pression={data['pressure']} hPa, Altitude={data['altitude']} m")
     return data
 
 def read_from_arduino_luminosity():
     line = ser_luminosity.readline().decode().strip()
     data = {}
+    if line:
+        print(f"[LUM] Ligne reçue : {line}")
     match = re.match(r"Luminosité:\s*(\d+)", line)
     if match:
         data['luminosity'] = float(match.group(1))
+        print(f"[LUM] Luminosité = {data['luminosity']}")
     return data
 
 def read_from_arduino_rain():
     line = ser_rain.readline().decode().strip()
     data = {}
+    if line:
+        print(f"[PLUIE] Ligne reçue : {line}")
     match = re.match(r"Gouttes detectee:\s*(\d+)", line)
     if match:
         data['rain_height'] = float(match.group(1))
+        print(f"[PLUIE] Hauteur de pluie = {data['rain_height']}")
     return data
 
 def read_from_arduino_wind():
     line = ser_wind.readline().decode().strip()
     data = {}
-    match = re.match(r"Wind_Speed:\s*([\d\.]+)\s*Km/h,\s*Wind_Direction:\s*(\w+)", line)
+    if line:
+        print(f"[VENT] Ligne reçue : {line}")
+    match = re.match(r"Vitesse du vent en Km/h\s*:\s*([\d\.]+)", line)
     if match:
         data["wind_speed"] = float(match.group(1))
-        data["wind_direction"] = match.group(2)
+        print(f"[VENT] Vitesse = {data['wind_speed']} Km/h")
+    match2 = re.match(r"Direction:\s*(\w+)", line)
+    if match2:
+        data["wind_direction"] = match2.group(1)
+        print(f"[VENT] Direction = {data['wind_direction']}")
     return data
 
 def insert_into_db(data):
@@ -96,6 +111,8 @@ def insert_into_db(data):
             "wind_speed": data.get("wind_speed"),
             "wind_direction": data.get("wind_direction")
         }
+
+        print(f"[DB] Insertion : {mapped_data}")
 
         cursor.execute("""
             INSERT INTO weather (
@@ -119,7 +136,7 @@ def insert_into_db(data):
         conn.close()
 
     except Exception as e:
-        print(f"Erreur lors de l'insertion dans la base de données: {e}")
+        print(f"[ERREUR DB] {e}")
 
 def read_sensors():
     last_insert_minute = -1
@@ -129,7 +146,6 @@ def read_sensors():
         now = datetime.now()
         current_minute = now.minute
 
-        # Lecture capteurs
         current_data.update(read_from_arduino_env())
         current_data.update(read_from_arduino_luminosity())
         current_data.update(read_from_arduino_rain())
@@ -143,6 +159,8 @@ def read_sensors():
         time.sleep(1)
 
 if __name__ == "__main__":
+    print("[SYSTEME] Initialisation de la base de données...")
     init_db()
+    print("[SYSTEME] Démarrage du thread de lecture des capteurs...")
     sensor_thread = threading.Thread(target=read_sensors)
     sensor_thread.start()
