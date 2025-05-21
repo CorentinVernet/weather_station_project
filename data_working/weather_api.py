@@ -23,17 +23,21 @@ def get_last_non_null_value(field):
 
 @app.route('/api/latest', methods=['GET'])
 def get_latest_weather():
-    result = {
-        "temperature": get_last_non_null_value("temperature"),
-        "humidity": get_last_non_null_value("humidity"),
-        "pressure": get_last_non_null_value("pressure"),
-        "rain_height": get_last_non_null_value("rain_height"),
-        "luminosity": get_last_non_null_value("luminosity"),
-        "altitude": get_last_non_null_value("altitude"),
-        "wind_speed": get_last_non_null_value("wind_speed"),
-        "wind_direction": get_last_non_null_value("wind_direction")
-    }
-    return jsonify(result)
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute(f"""
+        SELECT * FROM {TABLE}
+        ORDER BY timestamp DESC
+        LIMIT 1
+    """)
+    row = cursor.fetchone()
+    keys = [description[0] for description in cursor.description]
+    conn.close()
+
+    if not row:
+        return jsonify({key: None for key in keys})
+
+    return jsonify(dict(zip(keys, row)))
 
 @app.route('/api/history', methods=['GET'])
 def get_weather_history():
