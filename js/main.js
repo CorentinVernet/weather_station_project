@@ -96,7 +96,7 @@ window.showHistory = async function () {
         entry.temperature ?? "--"
       } °C, Humidité: ${entry.humidity ?? "--"} %, Pression: ${
         entry.pressure ?? "--"
-      } hPa, Pluie: ${entry.rain_height ?? "--"} mm, Luminosité: ${
+      } hPa, Pluie: ${entry.rain_height ?? "--"} ml, Luminosité: ${
         entry.luminosity ?? "--"
       } lux`;
       container.appendChild(div);
