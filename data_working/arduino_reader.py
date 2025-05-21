@@ -167,17 +167,26 @@ def read_sensors():
         now = datetime.now()
         current_minute = now.minute
 
-        current_data.update(read_from_arduino_env())
-        current_data.update(read_from_arduino_luminosity())
-        current_data.update(read_from_arduino_rain())
-        current_data.update(read_from_arduino_wind())
+        # Lecture des capteurs
+        env = read_from_arduino_env()
+        lum = read_from_arduino_luminosity()
+        rain = read_from_arduino_rain()
+        wind = read_from_arduino_wind()
 
+        # Mise à jour uniquement des champs non nuls
+        current_data.update({k: v for k, v in env.items() if v is not None})
+        current_data.update({k: v for k, v in lum.items() if v is not None})
+        current_data.update({k: v for k, v in rain.items() if v is not None})
+        current_data.update({k: v for k, v in wind.items() if v is not None})
+
+        # Insertion une fois par minute
         if current_minute != last_insert_minute:
-            if current_data:
+            if any(value is not None for value in current_data.values()):
                 insert_into_db(current_data)
             last_insert_minute = current_minute
 
         time.sleep(1)
+
 
 if __name__ == "__main__":
     print("[SYSTEME] Initialisation de la base de données...")
