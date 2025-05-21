@@ -8,7 +8,7 @@ LiquidCrystal_I2C lcd(0x27, 20, 4); // Adresse I2C de l'écran LCD et dimensions
 DHT dht(13, DHT22); // Broche du capteur DHT22
 Adafruit_BMP085_Unified bmp = Adafruit_BMP085_Unified(10085);
 
-#define VALEUR_PLUVIOMETRE 1.9 // Valeur en mm d'eau à chaque bascule d'auget
+#define VALEUR_PLUVIOMETRE 1.9 // Valeur en ml d'eau à chaque bascule d'auget
 volatile unsigned int countPluviometre = 0; // Compteur de basculements
 float pluvio1min = 0;  // Pluie sur 1 minute
 unsigned long previousMillis2 = 0; // Pour le suivi du délai
@@ -109,7 +109,7 @@ void loop() {
   lcd.setCursor(10, 1);
   lcd.print("P= ");
   lcd.print(pluvio1min);
-  lcd.print("mm");
+  lcd.print("ml");
 
   // Contrôle de la LED en fonction du niveau de CO2
   if (co2_ppm > 1000) {

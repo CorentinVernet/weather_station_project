@@ -61,7 +61,7 @@ window.updateAll = async function () {
   document.getElementById("pressur").innerText =
     data.pressure !== null ? `${data.pressure} hPa` : "--";
   document.getElementById("rain_height").innerText =
-    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+    data.rain_height !== null ? `${data.rain_height} ml` : "--";
   document.getElementById("luminosity").innerText =
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
   document.getElementById("altitude").innerText =

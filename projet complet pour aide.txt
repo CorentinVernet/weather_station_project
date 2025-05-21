@@ -143,7 +143,7 @@ history.html
             <th data-key="temperature">Température (°C)</th>
             <th data-key="humidity">Humidité (%)</th>
             <th data-key="pressure">Pression (hPa)</th>
-            <th data-key="rain_height">Pluie (mm)</th>
+            <th data-key="rain_height">Pluie (ml)</th>
             <th data-key="luminosity">Luminosité (lux)</th>
             <th data-key="altitude">Altitude (m)</th>
           </tr>
@@ -197,7 +197,7 @@ window.updatePressure = async function () {
 window.updateRain = async function () {
   const data = await fetchLatestData();
   document.getElementById("rain_height").innerText =
-    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+    data.rain_height !== null ? `${data.rain_height} ml` : "--";
 };
 
 window.updateLuminosity = async function () {
@@ -222,7 +222,7 @@ window.updateAll = async function () {
   document.getElementById("pressur").innerText =
     data.pressure !== null ? `${data.pressure} hPa` : "--";
   document.getElementById("rain_height").innerText =
-    data.rain_height !== null ? `${data.rain_height} mm` : "--";
+    data.rain_height !== null ? `${data.rain_height} l` : "--";
   document.getElementById("luminosity").innerText =
     data.luminosity !== null ? `${data.luminosity} lux` : "--";
   document.getElementById("altitude").innerText =
@@ -257,7 +257,7 @@ window.showHistory = async function () {
         entry.temperature ?? "--"
       } °C, Humidité: ${entry.humidity ?? "--"} %, Pression: ${
         entry.pressure ?? "--"
-      } hPa, Pluie: ${entry.rain_height ?? "--"} mm, Luminosité: ${
+      } hPa, Pluie: ${entry.rain_height ?? "--"} ml, Luminosité: ${
         entry.luminosity ?? "--"
       } lux`;
       container.appendChild(div);
