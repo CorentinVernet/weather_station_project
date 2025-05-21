@@ -82,19 +82,38 @@ def read_from_arduino_rain():
     return data
 
 def read_from_arduino_wind():
-    line = ser_wind.readline().decode().strip()
     data = {}
-    if line:
+    wind_speed = None
+    wind_direction = None
+
+    # Lire deux lignes successives (tu peux ajuster à plus si besoin)
+    for _ in range(5):  # on essaie jusqu'à 5 lignes maximum
+        line = ser_wind.readline().decode().strip()
+        if not line:
+            continue
+
         print(f"[VENT] Ligne reçue : {line}")
-    match = re.match(r"Vitesse du vent en Km/h\s*:\s*([\d\.]+)", line)
-    if match:
-        data["wind_speed"] = float(match.group(1))
-        print(f"[VENT] Vitesse = {data['wind_speed']} Km/h")
-    match2 = re.match(r"Direction:\s*(\w+)", line)
-    if match2:
-        data["wind_direction"] = match2.group(1)
-        print(f"[VENT] Direction = {data['wind_direction']}")
+
+        match_speed = re.match(r"Vitesse du vent en Km/h\s*:\s*([\d\.]+)", line)
+        if match_speed:
+            wind_speed = float(match_speed.group(1))
+            print(f"[VENT] Vitesse = {wind_speed} Km/h")
+
+        match_dir = re.match(r"Direction:\s*(\w+)", line)
+        if match_dir:
+            wind_direction = match_dir.group(1)
+            print(f"[VENT] Direction = {wind_direction}")
+
+        if wind_speed is not None and wind_direction is not None:
+            break  # On a les deux infos, on sort
+
+    if wind_speed is not None:
+        data["wind_speed"] = wind_speed
+    if wind_direction is not None:
+        data["wind_direction"] = wind_direction
+
     return data
+
 
 def insert_into_db(data):
     try:
