@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const date = dateInput.value;
     if (date) {
       fetch(
-        `http://10.30.250.100:5000/api/history?date=${date}` // Remplacer l'adresse IP par la vôtre
+        `http://192.168.4.1:5000/api/history?date=${date}` // Remplacer l'adresse IP par la vôtre
       )
         .then((response) => response.json())
         .then((data) => populateTable(data))
