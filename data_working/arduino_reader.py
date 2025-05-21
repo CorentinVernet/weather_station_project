@@ -121,7 +121,7 @@ def insert_into_db(data):
             "wind_direction": data.get("wind_direction")
         }
 
-        print(f"[DB] Insertion : {mapped_data}")
+        print(f"[DB] Insertion dans la base : {mapped_data}")  # Vérifie que tu as bien toutes les données avant l'insertion
 
         cursor.execute("""
             INSERT INTO weather (
