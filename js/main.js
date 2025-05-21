@@ -4,7 +4,7 @@ import { showCalendar } from "./headerContent/calendar.js";
 async function fetchLatestData() {
   try {
     const response = await fetch(
-      "http://192.168.4.1:5000/api/latest"
+      "http://10.30.250.100:5000/api/latest"
     ); /*Adresse IP ici a changer*/
     const data = await response.json();
     console.log("Données reçues de l'API:", data);
@@ -95,7 +95,7 @@ window.showHistory = async function () {
 
   try {
     const response = await fetch(
-      `http://192.168.4.1:5000/api/latest?date=${date}` /*Adresse IP ici a changer*/
+      `http://10.30.250.100:5000/api/latest?date=${date}` /*Adresse IP ici a changer*/
     );
     const historyData = await response.json();
 
