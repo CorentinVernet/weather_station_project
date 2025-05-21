@@ -36,10 +36,11 @@ h1 {
   border-radius: 5px;
 }
 
+/* Style pour la nouvelle table */
 table {
   margin: auto;
   align-items: center;
-  width: auto;
+  width: 80%;
   border-collapse: collapse;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(3px);

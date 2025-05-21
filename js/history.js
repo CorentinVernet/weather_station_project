@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const date = dateInput.value;
     if (date) {
       fetch(
-        `http://10.30.1.2:5000/api/history?date=${date}`
-      ) /*Adresse IP ici a changer*/
+        `http://10.30.1.2:5000/api/history?date=${date}` // Remplacer l'adresse IP par la vôtre
+      )
         .then((response) => response.json())
         .then((data) => populateTable(data))
         .catch((error) => {
           console.error("Erreur de chargement des données :", error);
-          alert("Erreur lors du chargement des données. (Probleme avec l'API)");
+          alert("Erreur lors du chargement des données. (Problème avec l'API)");
         });
     }
   });
@@ -43,11 +43,15 @@ function populateTable(data) {
       <td>${row.rain_height ?? "--"}</td>
       <td>${row.luminosity ?? "--"}</td>
       <td>${row.altitude ?? "--"}</td>
+      <!-- Ajout des nouvelles cellules pour la vitesse et la direction du vent -->
+      <td>${row.wind_speed ?? "--"}</td>
+      <td>${row.wind_direction ?? "--"}</td>
     `;
 
     tbody.appendChild(tr);
   });
 }
+
 document.querySelectorAll("#history-table th").forEach((header) => {
   header.addEventListener("click", () => {
     const key = header.getAttribute("data-key");
