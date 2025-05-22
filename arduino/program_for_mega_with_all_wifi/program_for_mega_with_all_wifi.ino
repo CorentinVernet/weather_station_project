@@ -58,7 +58,7 @@ void setup() {
     delay(5000);
   }
 
-  while (!client.connect("192.168.4.1", 12345)) {
+  while (!client.connect("192.168.4.1", 5001)) {
     Serial.println("[WIFI] Connexion au Raspberry échouée...");
     delay(3000);
   }
