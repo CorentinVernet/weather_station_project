@@ -1,13 +1,12 @@
-import serial
+import socket
 import sqlite3
 from datetime import datetime
-import time
 import re
 import threading
 
-arduino_port = "/dev/ttyUSB0"
-baud_rate = 9600
-ser = serial.Serial(arduino_port, baud_rate, timeout=1)
+# Config réseau
+host = "0.0.0.0"
+port = 12345
 
 db_path = "weather.db"
 
@@ -99,15 +98,24 @@ def insert_into_db(data):
     except Exception as e:
         print(f"[ERREUR DB] {e}")
 
-def read_serial():
+def read_wifi():
     buffer = {}
     last_minute = -1
 
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((host, port))
+    server_socket.listen(1)
+    print(f"[SYSTEME] En attente de l'Arduino sur le port {port}...")
+
+    client_socket, addr = server_socket.accept()
+    print(f"[SYSTEME] Connexion Arduino : {addr}")
+    client_file = client_socket.makefile('r')
+
     while True:
         try:
-            line = ser.readline().decode(errors='ignore').strip()
+            line = client_file.readline().strip()
             if line:
-                print(f"[SERIAL] {line}")
+                print(f"[WIFI] {line}")
                 new_data = parse_line(line)
                 buffer.update(new_data)
 
@@ -121,11 +129,11 @@ def read_serial():
                     last_minute = current_minute
 
         except Exception as e:
-            print(f"[ERREUR LECTURE] {e}")
+            print(f"[ERREUR LECTURE WIFI] {e}")
 
 if __name__ == "__main__":
     print("[SYSTEME] Initialisation de la base de données...")
     init_db()
-    print("[SYSTEME] Démarrage de la lecture série...")
-    serial_thread = threading.Thread(target=read_serial)
-    serial_thread.start()
+    print("[SYSTEME] Démarrage de la lecture réseau...")
+    wifi_thread = threading.Thread(target=read_wifi)
+    wifi_thread.start()
