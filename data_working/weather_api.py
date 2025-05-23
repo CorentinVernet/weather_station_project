@@ -87,7 +87,7 @@ def recevoir_ou_lire_donnees():
                 'pressure': ligne[3],
                 'altitude': ligne[4],
                 'luminosity': ligne[5],
-                'pluie': ligne[6],
+                'rain_height': ligne[6],
                 'wind_speed': ligne[7],
                 'wind_direction': ligne[8],
             })
