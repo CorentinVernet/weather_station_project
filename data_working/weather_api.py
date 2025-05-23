@@ -62,37 +62,37 @@ def get_weather_history():
     results = [dict(zip(keys, row)) for row in rows]
     return jsonify(results)
 
-@app.route('/api/data', methods=['POST'])
-def receive_data():
-    data = request.get_json()
-
-    if not data:
-        return jsonify({"error": "Aucune donnée reçue"}), 400
-
-    try:
-        conn = sqlite3.connect(DATABASE)
+@app.route('/api/data', methods=['GET', 'POST'])
+def recevoir_ou_lire_donnees():
+    if request.method == 'POST':
+        # insérer les données comme tu le fais déjà
+        ...
+        return jsonify({'message': 'Données insérées avec succès'})
+    
+    elif request.method == 'GET':
+        # lire les données depuis la base et les retourner
+        conn = sqlite3.connect('meteo.db')
         cursor = conn.cursor()
-        cursor.execute(f"""
-            INSERT INTO {TABLE} (
-                timestamp, temperature, humidity, pressure, altitude,
-                luminosity, pluie, wind_speed, wind_direction
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            datetime.now().isoformat(),
-            data.get("temperature"),
-            data.get("humidity"),
-            data.get("pressure"),
-            data.get("altitude"),
-            data.get("luminosity"),
-            data.get("pluie"),
-            data.get("wind_speed"),
-            data.get("wind_direction")
-        ))
-        conn.commit()
+        cursor.execute("SELECT * FROM weather ORDER BY timestamp DESC LIMIT 10")
+        lignes = cursor.fetchall()
         conn.close()
-        return jsonify({"message": "Données insérées avec succès"}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
+        # transformer en JSON
+        resultats = []
+        for ligne in lignes:
+            resultats.append({
+                'timestamp': ligne[0],
+                'temperature': ligne[1],
+                'humidity': ligne[2],
+                'pressure': ligne[3],
+                'altitude': ligne[4],
+                'luminosity': ligne[5],
+                'pluie': ligne[6],
+                'wind_speed': ligne[7],
+                'wind_direction': ligne[8],
+            })
+
+        return jsonify(resultats)
 
 
 if __name__ == '__main__':
