@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import sqlite3
+from datetime import datetime
+
 
 app = Flask(__name__)
 CORS(app, origins="*")
@@ -59,6 +61,39 @@ def get_weather_history():
 
     results = [dict(zip(keys, row)) for row in rows]
     return jsonify(results)
+
+@app.route('/api/data', methods=['POST'])
+def receive_data():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "Aucune donnée reçue"}), 400
+
+    try:
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        cursor.execute(f"""
+            INSERT INTO {TABLE} (
+                timestamp, temperature, humidity, pressure, altitude,
+                luminosity, pluie, wind_speed, wind_direction
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            datetime.now().isoformat(),
+            data.get("temperature"),
+            data.get("humidity"),
+            data.get("pressure"),
+            data.get("altitude"),
+            data.get("luminosity"),
+            data.get("pluie"),
+            data.get("wind_speed"),
+            data.get("wind_direction")
+        ))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Données insérées avec succès"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)

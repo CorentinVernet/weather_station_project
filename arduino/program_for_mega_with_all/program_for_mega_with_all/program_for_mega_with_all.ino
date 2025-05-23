@@ -13,6 +13,9 @@ DHT dht(DHTPIN, DHTTYPE);
 Adafruit_BMP085 bmp;
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
+unsigned long lastResetTime = 0;
+const unsigned long oneDayMillis = 86400000UL; // 24h
+
 // === Pluviomètre ===
 #define PLUVIOMETRE_PIN 3
 volatile int pluieCompteur = 0;
@@ -118,6 +121,14 @@ void loop() {
   Serial.print(volume, 1);
   Serial.println(" ml");
 
+  if (now - lastResetTime > oneDayMillis) {
+  totalGouttes = 0;
+  pluieCompteur = 0;
+  lastResetTime = now;
+  Serial.println("[RESET] Données pluie réinitialisées");
+  }
+
+
   // === VENT ===
   if (now - lastWindMillis >= intervalVent) {
     float windSpeed = (float)rotations / 2.0 * anemometerFactor;
@@ -138,7 +149,7 @@ void loop() {
 // === Interruptions ===
 void incrementPluie() {
   unsigned long currentMillis = millis();
-  if (currentMillis - lastPluieInterrupt > 300) { // anti-rebond 300ms
+  if (currentMillis - lastPluieInterrupt > 150) { // anti-rebond 300ms
     pluieCompteur++;
     lastPluieInterrupt = currentMillis;
   }
