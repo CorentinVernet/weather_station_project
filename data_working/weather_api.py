@@ -3,29 +3,18 @@ from flask_cors import CORS
 import sqlite3
 from datetime import datetime
 
-
 app = Flask(__name__)
 CORS(app, origins="*")
 
 DATABASE = "weather.db"
 TABLE = "weather"
 
-def get_last_non_null_value(field):
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-    cursor.execute(f"""
-        SELECT {field} FROM {TABLE}
-        WHERE {field} IS NOT NULL
-        ORDER BY timestamp DESC
-        LIMIT 1
-    """)
-    result = cursor.fetchone()
-    conn.close()
-    return result[0] if result else None
+def connect_db():
+    return sqlite3.connect(DATABASE)
 
 @app.route('/api/latest', methods=['GET'])
 def get_latest_weather():
-    conn = sqlite3.connect(DATABASE)
+    conn = connect_db()
     cursor = conn.cursor()
     cursor.execute(f"""
         SELECT * FROM {TABLE}
@@ -38,7 +27,6 @@ def get_latest_weather():
 
     if not row:
         return jsonify({key: None for key in keys})
-
     return jsonify(dict(zip(keys, row)))
 
 @app.route('/api/history', methods=['GET'])
@@ -47,7 +35,7 @@ def get_weather_history():
     if not date:
         return jsonify({"error": "Date manquante"}), 400
 
-    conn = sqlite3.connect(DATABASE)
+    conn = connect_db()
     cursor = conn.cursor()
     cursor.execute(f"""
         SELECT * FROM {TABLE}
@@ -65,35 +53,40 @@ def get_weather_history():
 @app.route('/api/data', methods=['GET', 'POST'])
 def recevoir_ou_lire_donnees():
     if request.method == 'POST':
-        # insérer les données comme tu le fais déjà
-        ...
-        return jsonify({'message': 'Données insérées avec succès'})
-    
-    elif request.method == 'GET':
-        # lire les données depuis la base et les retourner
-        conn = sqlite3.connect('meteo.db')
+        data = request.get_json()
+        conn = connect_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM weather ORDER BY timestamp DESC LIMIT 10")
-        lignes = cursor.fetchall()
+
+        cursor.execute(f"""
+            INSERT INTO {TABLE} (
+                timestamp, temperature, humidity, pressure,
+                altitude, luminosity, rain_height, wind_speed, wind_direction
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            datetime.now().isoformat(),
+            data.get("temperature"),
+            data.get("humidity"),
+            data.get("pressure"),
+            data.get("altitude"),
+            data.get("luminosity"),
+            data.get("rain_height"),
+            data.get("wind_speed"),
+            data.get("wind_direction")
+        ))
+
+        conn.commit()
+        conn.close()
+        return jsonify({'message': 'Données insérées avec succès'})
+
+    elif request.method == 'GET':
+        conn = connect_db()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM {TABLE} ORDER BY timestamp DESC LIMIT 10")
+        rows = cursor.fetchall()
+        keys = [description[0] for description in cursor.description]
         conn.close()
 
-        # transformer en JSON
-        resultats = []
-        for ligne in lignes:
-            resultats.append({
-                'timestamp': ligne[0],
-                'temperature': ligne[1],
-                'humidity': ligne[2],
-                'pressure': ligne[3],
-                'altitude': ligne[4],
-                'luminosity': ligne[5],
-                'rain_height': ligne[6],
-                'wind_speed': ligne[7],
-                'wind_direction': ligne[8],
-            })
-
-        return jsonify(resultats)
-
+        return jsonify([dict(zip(keys, row)) for row in rows])
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
