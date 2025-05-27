@@ -6,7 +6,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app, origins="*")
 
-DATABASE = "weather.db"
+DATABASE = "/home/pi/weather_station_project/data_working/weather.db"
 TABLE = "weather"
 
 def connect_db():
