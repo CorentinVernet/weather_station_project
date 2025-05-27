@@ -10,7 +10,7 @@ Le projet comprend un back-end en Python (Flask) qui sert les données via une A
 
 - 🎛️ **Arduino Mega** – Capteurs environnementaux
 - 🎛️ **Esp8266** – Envoi des données à l'API
-- 🐍 **Python (Flask)** – Back-end & API REST
+- 🐍 **Python (Flask)** – Back-end & API FLASK
 - 🖥️ **HTML/CSS/JS** – Interface utilisateur (Front-end)
 - 🍓 **Raspberry Pi** – Hébergement local
 
