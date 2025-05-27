@@ -94,9 +94,16 @@ weather_station_project
 
 > ⚙️ **Note :** L'API et le serveur python se lancent automatiquement au démarrage du Raspberry.
 
+### 📶 Connexion au Wi-Fi du Raspberry Pi
+
+Pour vous connecter au Raspberry Pi :
+
+- **SSID** : `MeteoPi`
+- **Mot de passe** : `stjacquesmeteo`
+
 ---
 
-- Sur le RaspberryPi, lancer le fichier `weather_api.py` (API) :
+- Sur le Raspberry Pi, lancer le fichier `weather_api.py` (API) :
 
   - $ cd weather_station_project/data_working/
   - $ source venv/bin/activate
@@ -133,6 +140,19 @@ http://[adresse_ip_du_raspberry]:8000
     | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   |
     | --- | --- | --- | --- | --- | --- | --- | --- |
     | on  | on  | off | off | off | off | off | off |
+
+### 🌬️ Couleur des fils pour la direction du vent :
+
+| 🧭 Direction | 🎨 Couleur du fil |
+| ------------ | ----------------- |
+| Nord         | Orange            |
+| Sud          | Blanc-Bleu        |
+| Est          | Blanc-Orange      |
+| Ouest        | Vert              |
+| Nord-Est     | Blanc-Vert        |
+| Nord-Ouest   | Blanc-Marron      |
+| Sud-Est      | Bleu              |
+| Sud-Ouest    | Marron            |
 
 ## 📝 Auteurs / Contributions
 
