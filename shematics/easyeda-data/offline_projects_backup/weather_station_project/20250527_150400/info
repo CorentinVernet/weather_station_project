@@ -1,0 +1,66 @@
+{
+  "uuid": "60488a074ce3fbc0c86ee1db83bed626",
+  "path": "Offline/weather_station_project",
+  "name": "weather_station_project",
+  "content": "",
+  "created_at": "2025-05-27 14:21:06",
+  "updated_at": "2025-05-27 15:04:00",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "fe45e7f93e8d2067c868c0395cb6dc76",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "75d61f6c65ff1ef59c14eca46d9ef136",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "ef6ad837f8a34d19a76ec3ba2bc9397d": 1,
+        "03d6c82bbae3482a83dc633449f17526": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "Reedswitch",
+          1,
+          "REED",
+          "S1",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "ARDUINO_MEGA+ESP8266",
+          1,
+          "ARDUINO_MEGA+ESP8266_PCB_WHOLES",
+          "U2",
+          {
+            "Manufacturer Part": "ARDUINO MEGA",
+            "Manufacturer": "za",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ]
+      ],
+      "updateTime": 1748351040,
+      "createTime": 1748348466,
+      "histories": [],
+      "created_at": "2025-05-27 14:21:06",
+      "updated_at": "2025-05-27 15:04:00"
+    }
+  ],
+  "sort": [],
+  "title": "weather_station_project",
+  "foldername": "weather_station_project",
+  "schfilename": "weather_station_project.json",
+  "schfilemtime": 1748351040603
+}

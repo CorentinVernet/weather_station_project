@@ -1,0 +1,154 @@
+{
+  "uuid": "60488a074ce3fbc0c86ee1db83bed626",
+  "path": "Offline/weather_station_project",
+  "name": "weather_station_project",
+  "content": "",
+  "created_at": "2025-05-27 14:21:06",
+  "updated_at": "2025-05-27 16:15:06",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "fe45e7f93e8d2067c868c0395cb6dc76",
+      "title": "Sheet_1",
+      "description": "",
+      "docType": "1",
+      "master": "6ef53a4cf63875d950f195ca9f813539",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "ef6ad837f8a34d19a76ec3ba2bc9397d": 1,
+        "03d6c82bbae3482a83dc633449f17526": 10,
+        "218aa598e30e4f7fb00a55acd06719da": 1,
+        "fff02d06482f46e7a5844bfe19f0cab9": 1,
+        "6cebb0e478ae40c1bb1f642bec8932bf": 1,
+        "a83078df29b34e55971244bfce3fdb11": 10
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "TSL2561(Luminosité)",
+          1,
+          "TSL2561",
+          "M1",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "10KΩ",
+          10,
+          "RESISTANCE 10K",
+          "R1,R2,R3,R4,R5,R6,R7,R8,R9,R10",
+          {
+            "Manufacturer Part": "MF58 103J3470",
+            "Manufacturer": "Nanjing Shiheng Elec",
+            "Supplier": "LCSC",
+            "Supplier Part": "C123392"
+          }
+        ],
+        [
+          "Reed (Pluviometre)",
+          1,
+          "REED",
+          "S1",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "Reed (Anenometre)",
+          1,
+          "REED",
+          "S2",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "Reed ()",
+          7,
+          "REED",
+          "S3,S4,S5,S6,S7,S8,S9",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "Reed (Nord)",
+          1,
+          "REED",
+          "S10",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "BMP180 (Pression/Altitude)",
+          1,
+          "BMP180",
+          "U1",
+          {
+            "Manufacturer Part": "",
+            "Manufacturer": "",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "ARDUINO_MEGA+ESP8266",
+          1,
+          "ARDUINO_MEGA+ESP8266_PCB_WHOLES",
+          "U2",
+          {
+            "Manufacturer Part": "ARDUINO MEGA",
+            "Manufacturer": "za",
+            "Supplier": "",
+            "Supplier Part": ""
+          }
+        ],
+        [
+          "DHT11(Humidité/Temperature)",
+          1,
+          "DIP-DHT11",
+          "U3",
+          {
+            "Manufacturer Part": "DHT11",
+            "Manufacturer": "AOSONG",
+            "Supplier": "LCSC",
+            "Supplier Part": "C117051"
+          }
+        ]
+      ],
+      "updateTime": 1748355306,
+      "createTime": 1748348466,
+      "histories": [],
+      "created_at": "2025-05-27 14:21:06",
+      "updated_at": "2025-05-27 16:15:06"
+    }
+  ],
+  "sort": [],
+  "title": "weather_station_project",
+  "foldername": "weather_station_project",
+  "schfilename": "weather_station_project.json",
+  "schfilemtime": 1748355306514
+}
