@@ -136,6 +136,6 @@ http://[adresse_ip_du_raspberry]:8000
 
 ## 📝 Auteurs / Contributions
 
-- 👨‍💻 **Corentin Vernet** – Développement principal, conception et intégration
+- 👨‍💻 **Corentin Vernet** – Développement principal, conception et intégration (corentin.informatique89@gmail.com)
 - 👥 **Classe de 1ère Pro CIEL** – Contributions ponctuelles
 - 👨‍🏫 **Mr Longet** / **Mr Dumand** – Accompagnement technique et pédagogique, encadrement et conseils sur le projet
