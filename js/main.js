@@ -24,7 +24,7 @@ function updateGlobalWeatherDisplay(data) {
 
 async function fetchLatestData() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/latest"); //Adresse ip du Raspberry pi (local wifi)
+    const response = await fetch("http://localhost:5000/api/latest"); //Adresse ip du Raspberry pi (local wifi)
     const data = await response.json();
     console.log("Données reçues de l'API:", data);
     return data;
@@ -116,7 +116,7 @@ window.showHistory = async function () {
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:5000/api/latest?date=${date}` //Adresse ip du Raspberry pi (local wifi)
+      `http://localhost:5000/api/latest?date=${date}` //Adresse ip du Raspberry pi (local wifi)
     );
     const historyData = await response.json();
 
