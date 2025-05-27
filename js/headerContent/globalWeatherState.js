@@ -1,54 +1,59 @@
 export function getWeatherCondition(data) {
-  const temp = data.temperature;
-  const humidity = data.humidity;
-  const rain = data.rain_height;
-  const wind = data.wind_speed;
-  const luminosity = data.luminosity;
-  const pressure = data.pressure;
+  if (!data || Object.keys(data).length === 0) return "Données indisponibles";
 
-  // 1. Pluie
-  if (rain > 1) {
-    if (rain > 100) return "Fortement pluvieux";
+  const {
+    temperature,
+    humidity,
+    pressure,
+    luminosity,
+    rain_height,
+    wind_speed,
+  } = data;
+
+  // Gestion des valeurs manquantes
+  if (
+    temperature == null ||
+    humidity == null ||
+    luminosity == null ||
+    rain_height == null ||
+    wind_speed == null
+  ) {
+    return "Données incomplètes";
+  }
+
+  // Seuils ajustés intelligemment
+  if (rain_height > 20) {
+    return "Fortement pluvieux";
+  }
+
+  if (rain_height > 5) {
     return "Pluvieux";
   }
 
-  // 2. Orage (pression basse + humidité + nuages)
-  if (pressure < 1000 && humidity > 80 && luminosity < 200) {
-    return "Orageux";
-  }
-
-  // 3. Ensoleillé
-  if (luminosity > 800 && humidity < 60 && temp >= 20) {
-    return "Ensoleillé";
-  }
-
-  // 4. Nuageux (faible luminosité mais pas de pluie)
-  if (luminosity < 400 && humidity > 50) {
-    return "Nuageux";
-  }
-
-  // 5. Froid
-  if (temp < 8 && humidity > 40) {
-    return "Froid";
-  }
-
-  // 6. Venteux
-  if (wind >= 20) {
+  if (wind_speed > 25) {
     return "Venteux";
   }
 
-  // 7. Variable (conditions moyennes, entre plusieurs états)
+  if (temperature < 5) {
+    return "Froid";
+  }
+
+  if (luminosity > 1000 && humidity < 60 && rain_height < 1) {
+    return "Ensoleillé";
+  }
+
+  if (humidity > 70 && rain_height < 2 && luminosity < 400) {
+    return "Nuageux";
+  }
+
   if (
-    temp >= 10 &&
-    temp <= 20 &&
+    temperature >= 10 &&
+    temperature <= 20 &&
     humidity >= 40 &&
-    humidity <= 70 &&
-    luminosity >= 400 &&
-    luminosity <= 800
+    humidity <= 70
   ) {
     return "Variable";
   }
 
-  // 8. Par défaut
   return "Modéré";
 }
