@@ -26,7 +26,7 @@ async function fetchLatestData() {
   try {
     const response = await fetch(
       `http://${window.location.hostname}:5000/api/latest`
-    ); //Adresse ip du Raspberry pi (local wifi)
+    ); //Adresse ip du Raspberry pi (local)
     const data = await response.json();
     console.log("Données reçues de l'API:", data);
     return data;
