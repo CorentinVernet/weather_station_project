@@ -1,4 +1,4 @@
-import { updateDateTime } from "./dateTime.js";
+import { updateDateTime } from "./headerContent/dateTime.js";
 import { showCalendar } from "./headerContent/calendar.js";
 
 async function fetchLatestData() {
