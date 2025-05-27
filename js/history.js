@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   dateInput.addEventListener("change", () => {
     const date = dateInput.value;
     if (date) {
-      fetch(
-        `http://192.168.4.1:5000/api/history?date=${date}` //Adresse ip du Raspberry pi (local wifi)
-      )
+      fetch("http://${window.location.hostname}:5000/api/history?date=${date}")
         .then((response) => response.json())
         .then((data) => populateTable(data))
         .catch((error) => {
