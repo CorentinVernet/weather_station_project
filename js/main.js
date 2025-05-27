@@ -1,5 +1,26 @@
 import { updateDateTime } from "./headerContent/dateTime.js";
 import { showCalendar } from "./headerContent/calendar.js";
+import { getWeatherCondition } from "./headerContent/globalWeatherState.js";
+
+function updateGlobalWeatherDisplay(data) {
+  const condition = getWeatherCondition(data);
+  const textElement = document.getElementById("global-weather-text");
+
+  const emojiMap = {
+    Ensoleillé: "☀️",
+    Pluvieux: "🌧️",
+    "Fortement pluvieux": "⛈️",
+    Nuageux: "☁️",
+    Orageux: "🌩️",
+    Froid: "❄️",
+    Venteux: "💨",
+    Variable: "🌤️",
+    Modéré: "🌥️",
+  };
+
+  const emoji = emojiMap[condition] || "🌡️";
+  textElement.textContent = `${emoji} ${condition}`;
+}
 
 async function fetchLatestData() {
   try {
@@ -82,6 +103,8 @@ window.updateAll = async function () {
 
   document.getElementById("wind_direction").innerText =
     data.wind_direction !== null ? data.wind_direction : "--";
+
+  updateGlobalWeatherDisplay(data);
 };
 
 window.showHistory = async function () {
