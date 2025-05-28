@@ -154,6 +154,50 @@ http://[adresse_ip_du_raspberry]:8000
 | Sud-Est      | Bleu              |
 | Sud-Ouest    | Marron            |
 
+---
+
+> ⚙️ **Ce qu’il me reste à faire :**
+
+1. 🔄 **Transfert sur carte électronique :**  
+   Remplacer le montage actuel sur **Lab500** par une **carte électronique dédiée**, en y transférant :
+
+   - Les **capteurs électroniques** :
+
+     - `DHT11` (température / humidité)
+     - `BMP180` (pression / altitude)
+     - `TSL2561` (luminosité)
+
+   - Les **capteurs mécaniques** :
+     - `Girouette` (direction du vent)
+     - `Anémomètre` (vitesse du vent)
+     - `Pluviomètre` (hauteur des précipitations)
+
+2. 🧱 **Assemblage sur le pied :**  
+   Monter l’ensemble (carte Arduino Mega + capteurs) sur le **pied prévu**, avec toutes les **bases** accueillant les différents modules.
+
+3. ✅ **Tests finaux :**  
+   Vérifier le **fonctionnement complet** du système, ainsi que la **bonne orientation** des capteurs (notamment la girouette).
+
+---
+
+### Câblage :
+
+![Schéma de câblage](img/useful_images/20250527_105839.jpg)
+
+---
+
+### Interface Web :
+
+![Schéma de câblage](img/useful_images/Site%20complet.png)
+
+---
+
+### Schéma Eletronique :
+
+![Schéma de câblage](shematics/Schematic_weather_station_project.png)
+
+---
+
 ## 📝 Auteurs / Contributions
 
 - 👨‍💻 **Corentin Vernet** – Développement principal, conception et intégration (corentin.informatique89@gmail.com)
